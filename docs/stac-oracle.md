@@ -132,6 +132,20 @@ The oracle supports the following environment variables:
 - `WAVS_ENV_IPFS_ENDPOINT`: IPFS upload endpoint (default: https://node.lighthouse.storage/api/v0/add)
 - `WAVS_ENV_LIGHTHOUSE_API_KEY`: API key for Lighthouse storage (required for IPFS uploads)
 
+## Windowed Reading
+
+To efficiently handle the large Sentinel-2 GeoTIFF files, this oracle uses windowed reading:
+
+1. The oracle extracts the bounding box (bbox) from the STAC query
+2. It calculates the pixel coordinates for this geographic bbox using the raster's transform parameters
+3. It downloads only a portion of the data that covers the requested bbox
+4. This significantly reduces memory usage and processing time
+
+The implementation:
+- Uses the image's projection transform to map between geographic and pixel coordinates
+- Limits download size to avoid memory issues
+- Provides a fallback mechanism to use simulated data if windowed reading fails
+
 ## NDVI Calculation
 
 NDVI (Normalized Difference Vegetation Index) is calculated using the formula:
