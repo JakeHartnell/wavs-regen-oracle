@@ -8,7 +8,7 @@ use crate::ipfs::upload_nft_content;
 use serde::{Deserialize, Serialize};
 use wstd::{http::HeaderValue, runtime::block_on};
 use std::io::Cursor;
-use image::{DynamicImage, GenericImageView};
+use image::{DynamicImage, GenericImageView, GenericImage, Rgba};
 use ndarray::{Array2, Zip};
 
 struct Component;
@@ -99,7 +99,8 @@ impl Guest for Component {
             };
             
             // Upload NDVI image to IPFS
-            let ndvi_uri = upload_nft_content("image/png", &ndvi_image, &ipfs_endpoint).await?;
+            let ndvi_uri = upload_nft_content("image/png", &ndvi_image, &ipfs_endpoint).await
+                .map_err(|e| format!("Failed to upload NDVI image to IPFS: {}", e))?;
             println!("NDVI image uploaded to IPFS: {}", ndvi_uri);
             
             // Add NDVI URI to metadata
@@ -114,7 +115,8 @@ impl Guest for Component {
             
             let metadata_uri = upload_nft_content("application/json", 
                                                  metadata_json.as_bytes(), 
-                                                 &ipfs_endpoint).await?;
+                                                 &ipfs_endpoint).await
+                .map_err(|e| format!("Failed to upload metadata to IPFS: {}", e))?;
             println!("Metadata uploaded to IPFS: {}", metadata_uri);
             
             // Return the metadata URI as the result
@@ -265,7 +267,7 @@ fn calculate_ndvi(red_data: &[u8], nir_data: &[u8]) -> Result<Vec<u8>, String> {
             let g = (ndvi_value * 255.0) as u8;
             let b = 0;
             
-            img.put_pixel(x, y, image::Rgba([r, g, b, 255]));
+            img.put_pixel(x, y, Rgba([r, g, b, 255]));
         }
     }
     
