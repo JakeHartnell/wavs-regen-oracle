@@ -24,6 +24,8 @@ wavs-wasi-utils = "0.4.0-alpha.5"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.140"
 anyhow = "1.0.98"
+image = "0.24.9"
+ndarray = "0.15.6"
 
 ## Alloy
 alloy-sol-macro = { version = "1.0.0", features = ["json"]}

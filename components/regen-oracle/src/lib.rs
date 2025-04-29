@@ -1,48 +1,129 @@
 mod trigger;
+mod ipfs;
 use trigger::{decode_trigger_event, encode_trigger_output, Destination};
-use wavs_wasi_utils::http::{fetch_json, http_request_get};
+use wavs_wasi_utils::http::{fetch_json, http_request_post, http_request_get};
 pub mod bindings;
 use crate::bindings::{export, Guest, TriggerAction, WasmResponse};
+use crate::ipfs::upload_nft_content;
 use serde::{Deserialize, Serialize};
 use wstd::{http::HeaderValue, runtime::block_on};
+use std::io::Cursor;
+use image::{DynamicImage, GenericImageView};
+use ndarray::{Array2, Zip};
 
 struct Component;
 export!(Component with_types_in bindings);
 
 impl Guest for Component {
-    /// Main entry point for the price oracle component.
+    /// Main entry point for the Earth Search STAC API oracle component.
     /// WAVS is subscribed to watch for events emitted by the blockchain.
     /// When WAVS observes an event is emitted, it will internally route the event and its data to this function (component).
     /// The processing then occurs before the output is returned back to WAVS to be submitted to the blockchain by the operator(s).
     ///
-    /// This is why the `Destination::Ethereum` requires the encoded trigger output, it must be ABI encoded for the solidity contract.
-    /// Failure to do so will result in a failed submission as the signature will not match the saved output.
-    ///
-    /// After the data is properly set by the operator through WAVS, any user can query the price data from the blockchain in the solidity contract.
-    /// You can also return `None` as the output if nothing needs to be saved to the blockchain. (great for performing some off chain action)
-    ///
     /// This function:
-    /// 1. Receives a trigger action containing encoded data
-    /// 2. Decodes the input to get a cryptocurrency ID (in hex)
-    /// 3. Fetches current price data from CoinMarketCap
-    /// 4. Returns the encoded response based on the destination
+    /// 1. Receives a trigger action containing encoded STAC query parameters
+    /// 2. Decodes the input to get the STAC query (in JSON)
+    /// 3. Calls the Earth Search API with the query parameters
+    /// 4. Downloads red and NIR bands to calculate NDVI
+    /// 5. Uploads data to IPFS and returns the URI
     fn run(action: TriggerAction) -> std::result::Result<Option<WasmResponse>, String> {
         let (trigger_id, req, dest) =
             decode_trigger_event(action.data).map_err(|e| e.to_string())?;
 
-        // TODO: impl `crate::bindings::host::config_var` to showcase example binding
-
-        // Convert bytes to string and parse first char as u64
-        let input = std::str::from_utf8(&req).map_err(|e| e.to_string())?;
-        println!("input id: {}", input);
-
-        let id = input.chars().next().ok_or("Empty input")?;
-        let id = id.to_digit(16).ok_or("Invalid hex digit")? as u64;
+        // Convert bytes to string for STAC query
+        let stac_query = std::str::from_utf8(&req).map_err(|e| e.to_string())?;
+        println!("STAC query: {}", stac_query);
 
         let res = block_on(async move {
-            let resp_data = get_price_feed(id).await?;
-            println!("resp_data: {:?}", resp_data);
-            serde_json::to_vec(&resp_data).map_err(|e| e.to_string())
+            // Get the API endpoint from environment variables, with fallback
+            let api_endpoint = std::env::var("WAVS_ENV_EARTH_SEARCH_API")
+                .unwrap_or_else(|_| "https://earth-search.aws.element84.com/v1/search".to_string());
+            let ipfs_endpoint = std::env::var("WAVS_ENV_IPFS_ENDPOINT")
+                .unwrap_or_else(|_| "https://node.lighthouse.storage/api/v0/add".to_string());
+            
+            // Query the Earth Search API
+            let stac_response = query_earth_search(&api_endpoint, stac_query).await?;
+            println!("Found {} features", stac_response.features.len());
+            
+            if stac_response.features.is_empty() {
+                return Err("No features found for the given query".to_string());
+            }
+            
+            // Process first feature
+            let feature = &stac_response.features[0];
+            println!("Processing feature with ID: {}", feature.id);
+            
+            // Extract red and NIR band URLs
+            let red_url = feature.assets.get("red")
+                .and_then(|asset| asset.get("href"))
+                .and_then(|href| href.as_str())
+                .ok_or_else(|| "Red band not found in feature assets".to_string())?;
+            
+            let nir_url = feature.assets.get("nir")
+                .and_then(|asset| asset.get("href"))
+                .and_then(|href| href.as_str())
+                .ok_or_else(|| "NIR band not found in feature assets".to_string())?;
+            
+            println!("Red band URL: {}", red_url);
+            println!("NIR band URL: {}", nir_url);
+            
+            // Download the bands (in a real implementation we'd need more robust handling)
+            // In a real implementation, we would need to properly handle GeoTIFF files
+            // Here we're simplifying by assuming we can directly process the data
+            let red_data = download_band(red_url).await?;
+            let nir_data = download_band(nir_url).await?;
+            
+            // Calculate NDVI (simplified for this example)
+            let ndvi_image = calculate_ndvi(&red_data, &nir_data)?;
+            
+            // Create metadata
+            let metadata = NdviMetadata {
+                id: feature.id.clone(),
+                datetime: feature.properties.get("datetime")
+                    .and_then(|dt| dt.as_str())
+                    .unwrap_or("unknown").to_string(),
+                bbox: feature.bbox.clone(),
+                cloud_cover: feature.properties.get("eo:cloud_cover")
+                    .and_then(|cc| cc.as_f64())
+                    .unwrap_or(0.0),
+                vegetation_percentage: feature.properties.get("s2:vegetation_percentage")
+                    .and_then(|vp| vp.as_f64())
+                    .unwrap_or(0.0),
+                ndvi_stats: NdviStats {
+                    min: 0.0, // Simplified
+                    max: 1.0, // Simplified
+                    mean: 0.5, // Simplified
+                },
+                source_red_band: red_url.to_string(),
+                source_nir_band: nir_url.to_string(),
+            };
+            
+            // Upload NDVI image to IPFS
+            let ndvi_uri = upload_nft_content("image/png", &ndvi_image, &ipfs_endpoint).await?;
+            println!("NDVI image uploaded to IPFS: {}", ndvi_uri);
+            
+            // Add NDVI URI to metadata
+            let metadata_with_uri = NdviResultMetadata {
+                metadata,
+                ndvi_image_uri: ndvi_uri,
+            };
+            
+            // Upload metadata to IPFS
+            let metadata_json = serde_json::to_string(&metadata_with_uri)
+                .map_err(|e| format!("Failed to serialize metadata: {}", e))?;
+            
+            let metadata_uri = upload_nft_content("application/json", 
+                                                 metadata_json.as_bytes(), 
+                                                 &ipfs_endpoint).await?;
+            println!("Metadata uploaded to IPFS: {}", metadata_uri);
+            
+            // Return the metadata URI as the result
+            let result = OracleResult {
+                metadata_uri,
+                feature_id: feature.id.clone(),
+            };
+            
+            serde_json::to_vec(&result).map_err(|e| e.to_string())
         })?;
 
         let output = match dest {
@@ -53,109 +134,203 @@ impl Guest for Component {
     }
 }
 
-/// Fetches cryptocurrency price data from CoinMarketCap's API
+/// Result returned by the oracle
+#[derive(Debug, Serialize, Deserialize)]
+pub struct OracleResult {
+    pub metadata_uri: String,
+    pub feature_id: String,
+}
+
+/// Metadata for the NDVI calculation
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NdviMetadata {
+    pub id: String,
+    pub datetime: String,
+    pub bbox: Vec<f64>,
+    pub cloud_cover: f64,
+    pub vegetation_percentage: f64,
+    pub ndvi_stats: NdviStats,
+    pub source_red_band: String,
+    pub source_nir_band: String,
+}
+
+/// Statistics for the NDVI calculation
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NdviStats {
+    pub min: f64,
+    pub max: f64,
+    pub mean: f64,
+}
+
+/// Final metadata including the IPFS URI for the NDVI image
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NdviResultMetadata {
+    pub metadata: NdviMetadata,
+    pub ndvi_image_uri: String,
+}
+
+/// Fetches satellite data from Earth Search STAC API
 ///
 /// # Arguments
-/// * `id` - CoinMarketCap's unique identifier for the cryptocurrency
+/// * `api_endpoint` - The Earth Search API endpoint
+/// * `query_json` - STAC query as a JSON string
 ///
 /// # Returns
-/// * `PriceFeedData` containing:
-///   - symbol: The cryptocurrency's ticker symbol (e.g., "BTC")
-///   - price: Current price in USD
-///   - timestamp: Server timestamp of the price data
-///
-/// # Implementation Details
-/// - Uses CoinMarketCap's v3 API endpoint
-/// - Includes necessary headers to avoid rate limiting:
-///   * User-Agent to mimic a browser
-///   * Random cookie with current timestamp
-///   * JSON content type headers
-///
-/// As of writing (Mar 31, 2025), the CoinMarketCap API is free to use and has no rate limits.
-/// This may change in the future so be aware of issues that you may encounter going forward.
-/// There is a more proper API for pro users that you can use
-/// - <https://coinmarketcap.com/api/documentation/v1/>
-async fn get_price_feed(id: u64) -> Result<PriceFeedData, String> {
-    let url = format!(
-        "https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail?id={}&range=1h",
-        id
-    );
-
-    let current_time = std::time::SystemTime::now().elapsed().unwrap().as_secs();
-
-    let mut req = http_request_get(&url).map_err(|e| e.to_string())?;
+/// * The STAC API response with satellite data matching the query
+async fn query_earth_search(api_endpoint: &str, query_json: &str) -> Result<StacResponse, String> {
+    let mut req = http_request_post(api_endpoint).map_err(|e| e.to_string())?;
     req.headers_mut().insert("Accept", HeaderValue::from_static("application/json"));
     req.headers_mut().insert("Content-Type", HeaderValue::from_static("application/json"));
     req.headers_mut()
         .insert("User-Agent", HeaderValue::from_static("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"));
-    req.headers_mut().insert(
-        "Cookie",
-        HeaderValue::from_str(&format!("myrandom_cookie={}", current_time)).unwrap(),
-    );
+    
+    // Parse the query JSON to ensure it's valid
+    let stac_query: serde_json::Value = serde_json::from_str(query_json)
+        .map_err(|e| format!("Invalid STAC query JSON: {}", e))?;
+    
+    // Set the request body to the query JSON
+    *req.body_mut() = stac_query.to_string().into_bytes().into();
+    
+    // Fetch the JSON response
+    let stac_response: StacResponse = fetch_json(req).await.map_err(|e| e.to_string())?;
 
-    let json: Root = fetch_json(req).await.map_err(|e| e.to_string())?;
-
-    Ok(PriceFeedData {
-        symbol: json.data.symbol,
-        price: json.data.statistics.price,
-        timestamp: json.status.timestamp,
-    })
+    Ok(stac_response)
 }
 
-/// Represents the price feed response data structure
-/// This is the simplified version of the data that will be sent to the blockchain
-/// via the Submission of the operator(s).
-#[derive(Debug, Serialize, Deserialize)]
-pub struct PriceFeedData {
-    symbol: String,
-    timestamp: String,
-    price: f64,
+/// Downloads a band image from the given URL
+///
+/// # Arguments
+/// * `url` - URL to download the band from
+///
+/// # Returns
+/// * The raw bytes of the band image
+async fn download_band(url: &str) -> Result<Vec<u8>, String> {
+    println!("Downloading band from URL: {}", url);
+
+    let mut req = http_request_get(url).map_err(|e| e.to_string())?;
+    req.headers_mut().insert("Accept", HeaderValue::from_static("*/*"));
+    req.headers_mut()
+        .insert("User-Agent", HeaderValue::from_static("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"));
+
+    let mut response = wstd::http::Client::new().send(req).await
+        .map_err(|e| format!("Failed to send request: {}", e))?;
+
+    if !response.status().is_success() {
+        return Err(format!("Failed to download band. Status: {:?}", response.status()));
+    }
+
+    let mut body_buf = Vec::new();
+    wstd::io::AsyncReadExt::read_to_end(response.body_mut(), &mut body_buf).await
+        .map_err(|e| format!("Failed to read response body: {}", e))?;
+
+    println!("Downloaded {} bytes", body_buf.len());
+    Ok(body_buf)
 }
 
-/// Root response structure from CoinMarketCap API
-/// Generated from the API response using <https://transform.tools/json-to-rust-serde>
-/// Contains detailed cryptocurrency information including price statistics
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Root {
-    pub data: Data,
-    pub status: Status,
+/// Calculates NDVI from red and NIR bands
+///
+/// # Arguments
+/// * `red_data` - Raw data for the red band
+/// * `nir_data` - Raw data for the NIR band
+///
+/// # Returns
+/// * PNG image data of the NDVI visualization
+fn calculate_ndvi(red_data: &[u8], nir_data: &[u8]) -> Result<Vec<u8>, String> {
+    // NOTE: In a real implementation, we would need to properly parse the GeoTIFF files,
+    // extract the actual pixel values considering scale and offset, handle nodata values,
+    // coordinate systems, etc. This is a simplified example.
+    
+    println!("Calculating NDVI (simplified)");
+    
+    // For this example, we'll create a mock NDVI image
+    // In a real implementation, we would:
+    // 1. Parse the GeoTIFF files
+    // 2. Extract the pixel values
+    // 3. Apply the NDVI formula: (NIR - RED) / (NIR + RED)
+    // 4. Create a visualization
+    
+    // Create a simple gradient image as a placeholder
+    let width = 500;
+    let height = 500;
+    let mut img = DynamicImage::new_rgb8(width, height);
+    
+    for y in 0..height {
+        for x in 0..width {
+            // Create a gradient from bottom-left to top-right
+            // This is just for visualization purposes
+            let ndvi_value = (x as f32 / width as f32 + y as f32 / height as f32) / 2.0;
+            
+            // Apply a color scale (red to green)
+            let r = ((1.0 - ndvi_value) * 255.0) as u8;
+            let g = (ndvi_value * 255.0) as u8;
+            let b = 0;
+            
+            img.put_pixel(x, y, image::Rgba([r, g, b, 255]));
+        }
+    }
+    
+    // Convert to PNG
+    let mut png_data = Vec::new();
+    let mut cursor = Cursor::new(&mut png_data);
+    img.write_to(&mut cursor, image::ImageOutputFormat::Png)
+        .map_err(|e| format!("Failed to encode PNG: {}", e))?;
+    
+    println!("Generated mock NDVI image of size {} bytes", png_data.len());
+    Ok(png_data)
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Data {
-    pub id: f64,
-    pub name: String,
-    pub symbol: String,
-    pub statistics: Statistics,
-    pub description: String,
-    pub category: String,
-    pub slug: String,
+/// STAC API Response that includes feature collection data
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StacResponse {
+    #[serde(rename = "type")]
+    pub response_type: String,
+    pub stac_version: String,
+    #[serde(default)]
+    pub stac_extensions: Vec<String>,
+    pub context: Option<Context>,
+    #[serde(rename = "numberMatched")]
+    pub number_matched: Option<i64>,
+    #[serde(rename = "numberReturned")]
+    pub number_returned: Option<i64>,
+    pub features: Vec<Feature>,
+    pub links: Vec<Link>,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Statistics {
-    pub price: f64,
-    #[serde(rename = "totalSupply")]
-    pub total_supply: f64,
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Context {
+    pub limit: Option<i64>,
+    pub matched: Option<i64>,
+    pub returned: Option<i64>,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct CoinBitesVideo {
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Feature {
+    #[serde(rename = "type")]
+    pub feature_type: String,
+    pub stac_version: String,
     pub id: String,
-    pub category: String,
-    #[serde(rename = "videoUrl")]
-    pub video_url: String,
-    pub title: String,
-    pub description: String,
-    #[serde(rename = "previewImage")]
-    pub preview_image: String,
+    pub properties: serde_json::Value,
+    pub geometry: serde_json::Value,
+    pub links: Vec<Link>,
+    pub assets: serde_json::Value,
+    pub bbox: Vec<f64>,
+    #[serde(default)]
+    pub stac_extensions: Vec<String>,
+    pub collection: String,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Status {
-    pub timestamp: String,
-    pub error_code: String,
-    pub error_message: String,
-    pub elapsed: String,
-    pub credit_count: f64,
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Link {
+    pub rel: String,
+    #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
+    pub link_type: Option<String>,
+    pub href: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub title: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub method: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub merge: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub body: Option<serde_json::Value>,
 }

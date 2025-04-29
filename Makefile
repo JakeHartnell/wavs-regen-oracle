@@ -37,6 +37,11 @@ wasi-exec: pull-image
 	--component "/data/compiled/$(COMPONENT_FILENAME)" \
 	--input `cast format-bytes32-string $(COIN_MARKET_CAP_ID)`
 
+## test-stac: testing the STAC API oracle with a sample query
+test-stac: wasi-build
+	@echo "Testing STAC API oracle with sample query..."
+	@sh ./script/test_stac_query.sh
+
 ## clean: cleaning the project files
 clean: clean-docker
 	@forge clean
@@ -98,6 +103,10 @@ TRIGGER_ID?=1
 ## show-result: showing the result | SERVICE_SUBMISSION_ADDR, TRIGGER_ID, RPC_URL
 show-result:
 	@forge script ./script/ShowResult.s.sol ${SERVICE_SUBMISSION_ADDR} ${TRIGGER_ID} --sig 'data(string,uint64)' --rpc-url $(RPC_URL) --broadcast
+
+## trigger-stac: trigger a STAC API query | SERVICE_TRIGGER_ADDR, RPC_URL, STAC_QUERY
+trigger-stac:
+	@sh ./script/trigger_stac.sh '$(STAC_QUERY)'
 
 ## update-submodules: update the git submodules
 update-submodules:

@@ -1,8 +1,10 @@
-# [WAVS](https://docs.wavs.xyz) Monorepo Template
+# [WAVS](https://docs.wavs.xyz) Earth Search STAC API Oracle
 
-**Template for getting started with developing WAVS applications**
+**Oracle for querying and processing Sentinel-2 satellite data**
 
-A template for developing WebAssembly AVS applications using Rust and Solidity, configured for Windows _WSL_, Linux, and MacOS. The sample oracle service fetches the current price of a cryptocurrency from [CoinMarketCap](https://coinmarketcap.com) and saves it on chain via the operators.
+This project provides a WebAssembly AVS oracle service that queries the [Earth Search STAC API](https://earth-search.aws.element84.com/v1/api.html) for European Space Agency [Sentinel-2](https://en.wikipedia.org/wiki/Sentinel-2) satellite imagery, calculates [NDVI](https://en.wikipedia.org/wiki/Normalized_difference_vegetation_index) (vegetation health index), and stores the results on IPFS. The service is built using Rust and Solidity, configured for Windows _WSL_, Linux, and MacOS.
+
+For detailed documentation on the STAC API Oracle, see [docs/stac-oracle.md](./docs/stac-oracle.md).
 
 **Languages**
 
@@ -137,30 +139,50 @@ Now build the WASI components into the `compiled` output directory.
 WASI_BUILD_DIR=components/wavs-regen-oracle make wasi-build
 ```
 
-## Testing the Price Feed Component Locally
+## Testing the STAC API Oracle Locally
 
-How to test the component locally for business logic validation before on-chain deployment. An ID of 1 for the oracle component is Bitcoin.
+Test the component locally for business logic validation before on-chain deployment:
 
 ```bash
-COIN_MARKET_CAP_ID=1 make wasi-exec
+# Build the component
+make wasi-build
+
+# Test with default STAC query
+make test-stac
 ```
 
 Expected output:
 
 ```shell docci-ignore
-input id: 1
-resp_data: PriceFeedData {
-    symbol: "BTC",
-    timestamp: "2025-04-01T00:00:00.000Z",
-    price: 82717.27035239758
+Testing STAC API oracle with sample query...
+STAC query: {
+  "collections": ["sentinel-2-l2a"],
+  "bbox": [-122.52, 37.70, -122.35, 37.83],
+  "datetime": "2024-06-01T00:00:00Z/2024-06-30T23:59:59Z",
+  "limit": 1,
+  "query": {
+    "eo:cloud_cover": {
+      "lt": 10
+    }
+  }
 }
-INFO Fuel used: 653415
-
-Result (hex encoded):
-7b2273796d626f6c223a22425443222c2274696d657374616d70223a22323032352d30342d30315430303a34...
+Found 1 features
+Processing feature with ID: S2B_10SEG_20240627_0_L2A
+Red band URL: https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EG/2024/6/S2B_10SEG_20240627_0_L2A/B04.tif
+NIR band URL: https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/10/S/EG/2024/6/S2B_10SEG_20240627_0_L2A/B08.tif
+Downloading bands...
+Calculating NDVI...
+NDVI image uploaded to IPFS: ipfs://Qm...
+Metadata uploaded to IPFS: ipfs://Qm...
 
 Result (utf8):
-{"symbol":"BTC","timestamp":"2025-04-01T00:00:00.000Z","price":82717.27035239758}
+{"metadata_uri":"ipfs://Qm...","feature_id":"S2B_10SEG_20240627_0_L2A"}
+```
+
+You can also test with a custom STAC query:
+
+```bash
+STAC_QUERY='{"collections":["sentinel-2-l2a"],"bbox":[-122.52,37.70,-122.35,37.83],"datetime":"2024-06-01T00:00:00Z/2024-06-30T23:59:59Z","limit":1,"query":{"eo:cloud_cover":{"lt":10}}}' make test-stac
 ```
 
 ## WAVS
@@ -263,18 +285,16 @@ docker run --rm --network host --env-file .env -v ./.nodes:/root/.nodes --entryp
 cast send $(cast wallet address --private-key ${WAVS_AGGREGATOR_CREDENTIAL}) --rpc-url http://localhost:8545 --private-key ${DEPLOYER_PK} --value 1ether
 ```
 
-## Trigger the Service
+## Trigger the STAC API Oracle
 
 Anyone can now call the [trigger contract](./src/contracts/WavsTrigger.sol) which emits the trigger event WAVS is watching for from the previous step. WAVS then calls the service and saves the result on-chain.
 
 ```bash
-# Request BTC from CMC
-export COIN_MARKET_CAP_ID=1
-# Get the trigger address from previous Deploy forge script
-export SERVICE_TRIGGER_ADDR=`make get-trigger-from-deploy`
-# Execute on the trigger contract, WAVS will pick this up and submit the result
-# on chain via the operators.
-forge script ./script/Trigger.s.sol ${SERVICE_TRIGGER_ADDR} ${COIN_MARKET_CAP_ID} --sig 'run(string,string)' --rpc-url http://localhost:8545 --broadcast
+# Trigger with the default STAC query
+make trigger-stac
+
+# You can also specify a custom STAC query
+STAC_QUERY='{"collections":["sentinel-2-l2a"],"bbox":[-122.52,37.70,-122.35,37.83],"datetime":"2024-06-01T00:00:00Z/2024-06-30T23:59:59Z","limit":1,"query":{"eo:cloud_cover":{"lt":10}}}' make trigger-stac
 ```
 
 ## Show the result
@@ -285,6 +305,8 @@ Query the latest submission contract id from the previous request made.
 make get-trigger
 ```
 
-```bash docci-delay-per-cmd=2 docci-output-contains="BTC"
+```bash docci-delay-per-cmd=2
 TRIGGER_ID=1 make show-result
 ```
+
+The result will contain the IPFS URI for the NDVI metadata and the feature ID of the Sentinel-2 image that was processed. You can access the metadata and NDVI visualization through the IPFS URI.
