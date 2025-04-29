@@ -1,6 +1,7 @@
 ---
 title: 4. Oracle component walkthrough
 ---
+
 <!--docsignore
 import { HoverContainer } from "@/components/hover-container";
 import { Callout } from 'fumadocs-ui/components/callout';
@@ -8,16 +9,14 @@ import { Scrollycoding } from "@/components/scrollycoding";
 import { link } from "@/components/link.tsx";
 docsignore-->
 
-The core logic of the price oracle in this example is located in the [`/eth-price-oracle/src/lib.rs` file](https://github.com/Lay3rLabs/wavs-foundry-template/tree/v0.3.0/components/eth-price-oracle/src/lib.rs). Scroll down to follow a walkthrough of the code for the oracle component.
-
+The core logic of the price oracle in this example is located in the [`/wavs-regen-oracle/src/lib.rs` file](https://github.com/Lay3rLabs/wavs-foundry-template/tree/v0.3.0/components/wavs-regen-oracle/src/lib.rs). Scroll down to follow a walkthrough of the code for the oracle component.
 
 <HoverContainer>
 <Scrollycoding>
 
 ## !!steps trigger.rs
 
-The [trigger.rs](https://github.com/Lay3rLabs/wavs-foundry-template/tree/v0.3.0/components/eth-price-oracle/src/trigger.rs) file handles the decoding of incoming trigger data (`decode_event_log_data!()`) and prepares it for processing within the WAVS component. The `encode_trigger_output` function ensures that processed data is formatted correctly before being sent back. Update the code if you require different trigger types (e.g. Cosmos events) or if you are building a [custom trigger](./5-build#custom-triggers).
-
+The [trigger.rs](https://github.com/Lay3rLabs/wavs-foundry-template/tree/v0.3.0/components/wavs-regen-oracle/src/trigger.rs) file handles the decoding of incoming trigger data (`decode_event_log_data!()`) and prepares it for processing within the WAVS component. The `encode_trigger_output` function ensures that processed data is formatted correctly before being sent back. Update the code if you require different trigger types (e.g. Cosmos events) or if you are building a [custom trigger](./5-build#custom-triggers).
 
 ```rust ! trigger.rs
 use crate::bindings::wavs::worker::layer_types::{TriggerData, TriggerDataEthContractEvent};
@@ -58,7 +57,7 @@ mod solidity {
 
 ## !!steps Oracle component definitions
 
-The [`lib.rs`](https://github.com/Lay3rLabs/wavs-foundry-template/tree/v0.3.0/components/eth-price-oracle/src/lib.rs) file contains the main component logic for the oracle. The first section of the code imports the required modules for requests, serialization, and bindings, defines the component struct, and exports the component for execution within the WAVS runtime.
+The [`lib.rs`](https://github.com/Lay3rLabs/wavs-foundry-template/tree/v0.3.0/components/wavs-regen-oracle/src/lib.rs) file contains the main component logic for the oracle. The first section of the code imports the required modules for requests, serialization, and bindings, defines the component struct, and exports the component for execution within the WAVS runtime.
 
 ```rust ! lib.rs
 // !focus(1:13)
@@ -257,7 +256,6 @@ Then, `get_price_feed(id).await` is called to fetch the asset price from CoinMar
 }
 ```
 
-
 ## !!steps Price feed data
 
 The asset ID passed from the trigger is used in the API request to fetch the data from CoinMarketCap.
@@ -357,8 +355,6 @@ impl Guest for Component {
             serde_json::to_vec(&resp_data).map_err(|e| e.to_string())
         })?;
 ```
-
-
 
 ## !!steps Next steps
 

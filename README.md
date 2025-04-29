@@ -6,9 +6,9 @@ A template for developing WebAssembly AVS applications using Rust and Solidity, 
 
 **Languages**
 
-- [Rust (this example)](./components/eth-price-oracle/)
-- [Go](./components/golang-eth-price-oracle/README.md)
-- [JS / TS](./components/js-eth-price-oracle/README.md)
+- [Rust (this example)](./components/wavs-regen-oracle/)
+- [Go](./components/golang-wavs-regen-oracle/README.md)
+- [JS / TS](./components/js-wavs-regen-oracle/README.md)
 
 ## System Requirements
 
@@ -134,7 +134,7 @@ Now build the WASI components into the `compiled` output directory.
 ```bash
 # This command only builds the rust component.
 # Remove `WASI_BUILD_DIR` to build all components.
-WASI_BUILD_DIR=components/eth-price-oracle make wasi-build
+WASI_BUILD_DIR=components/wavs-regen-oracle make wasi-build
 ```
 
 ## Testing the Price Feed Component Locally
@@ -228,7 +228,7 @@ Deploy the compiled component with the contract information from the previous st
 
 ```bash docci-delay-per-cmd=2
 # Build your service JSON
-COMPONENT_FILENAME=eth_price_oracle.wasm AGGREGATOR_URL=http://127.0.0.1:8001 sh ./script/build_service.sh
+COMPONENT_FILENAME=wavs_regen_oracle.wasm AGGREGATOR_URL=http://127.0.0.1:8001 sh ./script/build_service.sh
 
 # Deploy the service JSON to WAVS so it now watches and submits.
 #

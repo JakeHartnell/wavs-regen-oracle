@@ -7,7 +7,7 @@ SUDO := $(shell if groups | grep -q docker; then echo ''; else echo 'sudo'; fi)
 default: build
 
 # Customize these variables
-COMPONENT_FILENAME?=eth_price_oracle.wasm
+COMPONENT_FILENAME?=wavs_regen_oracle.wasm
 SERVICE_CONFIG_FILE?=.docker/service.json
 
 # Define common variables

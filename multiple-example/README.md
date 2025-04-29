@@ -54,9 +54,9 @@ export SERVICE_TRIGGER_ADDR=`jq -r .deployedTo .docker/trigger.json`
 
 # Deploy the WASI component service & upload to each WAVS instance
 # WAVS1
-COMPONENT_FILENAME=eth_price_oracle.wasm AGGREGATOR_URL=http://127.0.0.1:8001 sh ./script/build_service.sh
+COMPONENT_FILENAME=wavs_regen_oracle.wasm AGGREGATOR_URL=http://127.0.0.1:8001 sh ./script/build_service.sh
 # WAVS2
-COMPONENT_FILENAME=eth_price_oracle.wasm WAVS_ENDPOINT=http://127.0.0.1:9000 make upload-component
+COMPONENT_FILENAME=wavs_regen_oracle.wasm WAVS_ENDPOINT=http://127.0.0.1:9000 make upload-component
 
 # Now upload it to the 2nd wavs instance manually (since it's not watching for events to auto pull configs)
 SERVICE_CONFIG_FILE=.docker/service.json CREDENTIAL=${DEPLOYER_PK} make deploy-service
@@ -101,7 +101,6 @@ TRIGGER_ID=1 make show-result
 ```
 docker compose -f docker-compose-multi.yml rm -s -v wavs2
 ```
-
 
 ## How It Works
 
