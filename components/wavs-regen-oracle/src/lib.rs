@@ -110,27 +110,13 @@ impl Guest for Component {
             // Using bounding box for windowed reading
             let bbox = &feature.bbox;
 
-            // Download the bands with windowed reading
-            // If windowed reading fails, fall back to simulated download
-            let red_data = match download_band_window(red_url, bbox, &red_transform, &red_shape)
-                .await
-            {
-                Ok(data) => data,
-                Err(e) => {
-                    println!("Windowed read failed: {}. Falling back to simulated download.", e);
-                    download_band(red_url).await?
-                }
-            };
+            // Download the red band data
+            println!("Downloading red band data...");
+            let red_data = download_band_window(red_url, bbox, &red_transform, &red_shape).await?;
 
-            let nir_data = match download_band_window(nir_url, bbox, &nir_transform, &nir_shape)
-                .await
-            {
-                Ok(data) => data,
-                Err(e) => {
-                    println!("Windowed read failed: {}. Falling back to simulated download.", e);
-                    download_band(nir_url).await?
-                }
-            };
+            // Download the NIR band data
+            println!("Downloading NIR band data...");
+            let nir_data = download_band_window(nir_url, bbox, &nir_transform, &nir_shape).await?;
 
             // Calculate NDVI (simplified for this example)
             let ndvi_image = calculate_ndvi(&red_data, &nir_data)?;
@@ -398,19 +384,54 @@ async fn download_band_window(
 /// # Returns
 /// * A small sample of the band image data
 async fn download_band(url: &str) -> Result<Vec<u8>, String> {
-    println!("Simulating band download from URL: {}", url);
+    println!("Downloading band data from URL: {}", url);
 
-    // Return a very small sample buffer to minimize gas usage
-    let sample_size = 1024; // Just 1KB sample - as small as possible while still representing an image
-    let mut buffer = Vec::with_capacity(sample_size);
+    // Set up HTTP request with limited size to save gas
+    let mut req = http_request_get(url).map_err(|e| e.to_string())?;
+    req.headers_mut().insert("Accept", HeaderValue::from_static("*/*"));
+    req.headers_mut()
+        .insert("User-Agent", HeaderValue::from_static("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"));
 
-    // Fill with placeholder data for minimal memory footprint
-    for i in 0..sample_size {
-        buffer.push((i % 256) as u8);
+    // Set a byte range to minimize data transfer - just download the first part of the file
+    // This is enough to get header info and some data while saving gas
+    req.headers_mut().insert("Range", HeaderValue::from_static("bytes=0-50000"));
+
+    let mut response = wstd::http::Client::new()
+        .send(req)
+        .await
+        .map_err(|e| format!("Failed to send request: {}", e))?;
+
+    if !response.status().is_success() && response.status().as_u16() != 206 {
+        // 206 is Partial Content response, which is success for a range request
+        return Err(format!("Failed to download band. Status: {:?}", response.status()));
     }
 
-    println!("Created minimal sample data of {} bytes", buffer.len());
-    Ok(buffer)
+    // Read the response data with a size limit
+    let mut body_buf = Vec::new();
+    let mut bytes_read = 0;
+    let max_bytes = 50_000; // 50KB max to avoid excessive gas usage
+
+    let mut buffer = [0u8; 4096]; // Use a reasonably sized buffer
+    loop {
+        let n = wstd::io::AsyncRead::read(response.body_mut(), &mut buffer)
+            .await
+            .map_err(|e| format!("Failed to read response body: {}", e))?;
+
+        if n == 0 {
+            break;
+        }
+
+        body_buf.extend_from_slice(&buffer[..n]);
+        bytes_read += n;
+
+        if bytes_read >= max_bytes {
+            println!("Reached byte limit ({}KB). Truncating download.", max_bytes / 1000);
+            break;
+        }
+    }
+
+    println!("Downloaded {} bytes", body_buf.len());
+    Ok(body_buf)
 }
 
 /// Calculates NDVI from red and NIR bands

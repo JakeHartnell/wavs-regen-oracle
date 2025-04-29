@@ -158,10 +158,10 @@ To efficiently handle the large Sentinel-2 GeoTIFF files within blockchain gas l
 - Uses a 20x20 grid sampling approach to minimize pixel calculations
 - Uses JPEG format with 60% quality to reduce the output file size
 
-### 4. Fallback Mechanism
-- Provides a simulated data fallback if windowed reading fails
-- Uses minimal 1KB sample data to ensure processing continues
-- Ensures the oracle remains responsive even with challenging inputs
+### 4. Direct Data Processing
+- Downloads and processes actual GeoTIFF data from Sentinel-2
+- Uses range requests to limit data size to 100KB per band
+- Processes real satellite imagery for accurate NDVI calculations
 
 ## NDVI Calculation
 
