@@ -15,9 +15,13 @@ curl -X POST "https://earth-search.aws.element84.com/v1/search" \
         "lt": 10
       }
     }
-  }' 
+  }'
 ```
 
+Part 1 Instructions:
 
-
-
+- API endpoint should be an environment variable prefixed with `WAVS_ENV_`
+- lib.rs should query the API (see curl example above)
+- For calculating ndvi we're interested in red (band 4) and nir (band 8) rasters (COGs cloud optimized geotif), parse these images from the response and upload them to ipfs (see `example-response.json`)
+- Upload metadata to ipfs
+- Return IPFS URI
