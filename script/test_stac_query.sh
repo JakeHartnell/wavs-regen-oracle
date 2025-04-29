@@ -34,6 +34,7 @@ echo "$STAC_QUERY"
 echo "------------------------------------"
 
 # Run the component with the query
+
 # cargo component run \
 #   --no-default-features \
 #   --target wasm32-wasip2 \
@@ -41,7 +42,10 @@ echo "------------------------------------"
 #   --release \
 #   --data @"$QUERY_FILE"
 
-cat "$QUERY_FILE" | cargo component run -p wavs-regen-oracle --no-default-features --target wasm32-wasip2 --manifest-path ./components/wavs-regen-oracle/Cargo.toml --release
+# cat "$QUERY_FILE" | cargo component run -p wavs-regen-oracle --no-default-features --target wasm32-wasip2 --manifest-path ./components/wavs-regen-oracle/Cargo.toml --release
+
+# TODO pass in args
+make wasi-exec
 
 # Clean up
 rm "$QUERY_FILE"
