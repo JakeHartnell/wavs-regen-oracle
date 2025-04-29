@@ -3,8 +3,7 @@ pub type WasmResponse = wavs::worker::layer_types::WasmResponse;
 #[doc(hidden)]
 #[allow(non_snake_case)]
 pub unsafe fn _export_run_cabi<T: Guest>(arg0: *mut u8) -> *mut u8 {
-    #[cfg(target_arch = "wasm32")]
-    _rt::run_ctors_once();
+    #[cfg(target_arch = "wasm32")] _rt::run_ctors_once();
     let l0 = *arg0.add(0).cast::<*mut u8>();
     let l1 = *arg0.add(4).cast::<usize>();
     let len2 = l1;
@@ -93,7 +92,9 @@ pub unsafe fn _export_run_cabi<T: Guest>(arg0: *mut u8) -> *mut u8 {
                         1 => {
                             let e = {
                                 let l34 = *arg0.add(40).cast::<i64>();
-                                wavs::worker::layer_types::Timestamp { nanos: l34 as u64 }
+                                wavs::worker::layer_types::Timestamp {
+                                    nanos: l34 as u64,
+                                }
                             };
                             Some(e)
                         }
@@ -104,7 +105,9 @@ pub unsafe fn _export_run_cabi<T: Guest>(arg0: *mut u8) -> *mut u8 {
                         1 => {
                             let e = {
                                 let l36 = *arg0.add(56).cast::<i64>();
-                                wavs::worker::layer_types::Timestamp { nanos: l36 as u64 }
+                                wavs::worker::layer_types::Timestamp {
+                                    nanos: l36 as u64,
+                                }
                             };
                             Some(e)
                         }
@@ -235,7 +238,9 @@ pub unsafe fn _export_run_cabi<T: Guest>(arg0: *mut u8) -> *mut u8 {
             let e83 = {
                 let l79 = *arg0.add(72).cast::<i64>();
                 wavs::worker::layer_types::TriggerDataCron {
-                    trigger_time: wavs::worker::layer_types::Timestamp { nanos: l79 as u64 },
+                    trigger_time: wavs::worker::layer_types::Timestamp {
+                        nanos: l79 as u64,
+                    },
                 }
             };
             V83::Cron(e83)
@@ -354,8 +359,7 @@ pub mod wasi {
         pub mod environment {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             #[allow(unused_unsafe, clippy::all)]
             pub fn get_environment() -> _rt::Vec<(_rt::String, _rt::String)> {
@@ -463,7 +467,11 @@ pub mod wasi {
                                 let l2 = *ptr0.add(4).cast::<*mut u8>();
                                 let l3 = *ptr0.add(8).cast::<usize>();
                                 let len4 = l3;
-                                let bytes4 = _rt::Vec::from_raw_parts(l2.cast(), len4, len4);
+                                let bytes4 = _rt::Vec::from_raw_parts(
+                                    l2.cast(),
+                                    len4,
+                                    len4,
+                                );
                                 _rt::string_lift(bytes4)
                             };
                             Some(e)
@@ -477,8 +485,7 @@ pub mod wasi {
         pub mod exit {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             #[allow(unused_unsafe, clippy::all)]
             pub fn exit(status: Result<(), ()>) {
                 unsafe {
@@ -504,8 +511,7 @@ pub mod wasi {
         pub mod stdin {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             pub type InputStream = super::super::super::wasi::io::streams::InputStream;
             #[allow(unused_unsafe, clippy::all)]
             pub fn get_stdin() -> InputStream {
@@ -521,7 +527,9 @@ pub mod wasi {
                         unreachable!()
                     }
                     let ret = wit_import();
-                    super::super::super::wasi::io::streams::InputStream::from_handle(ret as u32)
+                    super::super::super::wasi::io::streams::InputStream::from_handle(
+                        ret as u32,
+                    )
                 }
             }
         }
@@ -529,8 +537,7 @@ pub mod wasi {
         pub mod stdout {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             pub type OutputStream = super::super::super::wasi::io::streams::OutputStream;
             #[allow(unused_unsafe, clippy::all)]
             pub fn get_stdout() -> OutputStream {
@@ -546,7 +553,9 @@ pub mod wasi {
                         unreachable!()
                     }
                     let ret = wit_import();
-                    super::super::super::wasi::io::streams::OutputStream::from_handle(ret as u32)
+                    super::super::super::wasi::io::streams::OutputStream::from_handle(
+                        ret as u32,
+                    )
                 }
             }
         }
@@ -554,8 +563,7 @@ pub mod wasi {
         pub mod stderr {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             pub type OutputStream = super::super::super::wasi::io::streams::OutputStream;
             #[allow(unused_unsafe, clippy::all)]
             pub fn get_stderr() -> OutputStream {
@@ -571,7 +579,9 @@ pub mod wasi {
                         unreachable!()
                     }
                     let ret = wit_import();
-                    super::super::super::wasi::io::streams::OutputStream::from_handle(ret as u32)
+                    super::super::super::wasi::io::streams::OutputStream::from_handle(
+                        ret as u32,
+                    )
                 }
             }
         }
@@ -579,8 +589,7 @@ pub mod wasi {
         pub mod terminal_input {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             #[derive(Debug)]
             #[repr(transparent)]
@@ -590,7 +599,9 @@ pub mod wasi {
             impl TerminalInput {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -622,8 +633,7 @@ pub mod wasi {
         pub mod terminal_output {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             #[derive(Debug)]
             #[repr(transparent)]
@@ -633,7 +643,9 @@ pub mod wasi {
             impl TerminalOutput {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -665,8 +677,7 @@ pub mod wasi {
         pub mod terminal_stdin {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             pub type TerminalInput = super::super::super::wasi::cli::terminal_input::TerminalInput;
             #[allow(unused_unsafe, clippy::all)]
@@ -708,11 +719,9 @@ pub mod wasi {
         pub mod terminal_stdout {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
-            pub type TerminalOutput =
-                super::super::super::wasi::cli::terminal_output::TerminalOutput;
+            pub type TerminalOutput = super::super::super::wasi::cli::terminal_output::TerminalOutput;
             #[allow(unused_unsafe, clippy::all)]
             pub fn get_terminal_stdout() -> Option<TerminalOutput> {
                 unsafe {
@@ -752,11 +761,9 @@ pub mod wasi {
         pub mod terminal_stderr {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
-            pub type TerminalOutput =
-                super::super::super::wasi::cli::terminal_output::TerminalOutput;
+            pub type TerminalOutput = super::super::super::wasi::cli::terminal_output::TerminalOutput;
             #[allow(unused_unsafe, clippy::all)]
             pub fn get_terminal_stderr() -> Option<TerminalOutput> {
                 unsafe {
@@ -799,8 +806,7 @@ pub mod wasi {
         pub mod monotonic_clock {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             pub type Pollable = super::super::super::wasi::io::poll::Pollable;
             pub type Instant = u64;
@@ -853,7 +859,9 @@ pub mod wasi {
                         unreachable!()
                     }
                     let ret = wit_import(_rt::as_i64(when));
-                    super::super::super::wasi::io::poll::Pollable::from_handle(ret as u32)
+                    super::super::super::wasi::io::poll::Pollable::from_handle(
+                        ret as u32,
+                    )
                 }
             }
             #[allow(unused_unsafe, clippy::all)]
@@ -870,7 +878,9 @@ pub mod wasi {
                         unreachable!()
                     }
                     let ret = wit_import(_rt::as_i64(when));
-                    super::super::super::wasi::io::poll::Pollable::from_handle(ret as u32)
+                    super::super::super::wasi::io::poll::Pollable::from_handle(
+                        ret as u32,
+                    )
                 }
             }
         }
@@ -878,8 +888,7 @@ pub mod wasi {
         pub mod wall_clock {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             #[repr(C)]
             #[derive(Clone, Copy)]
             pub struct Datetime {
@@ -887,7 +896,10 @@ pub mod wasi {
                 pub nanoseconds: u32,
             }
             impl ::core::fmt::Debug for Datetime {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("Datetime")
                         .field("seconds", &self.seconds)
                         .field("nanoseconds", &self.nanoseconds)
@@ -914,7 +926,10 @@ pub mod wasi {
                     wit_import(ptr0);
                     let l1 = *ptr0.add(0).cast::<i64>();
                     let l2 = *ptr0.add(8).cast::<i32>();
-                    Datetime { seconds: l1 as u64, nanoseconds: l2 as u32 }
+                    Datetime {
+                        seconds: l1 as u64,
+                        nanoseconds: l2 as u32,
+                    }
                 }
             }
             #[allow(unused_unsafe, clippy::all)]
@@ -937,7 +952,10 @@ pub mod wasi {
                     wit_import(ptr0);
                     let l1 = *ptr0.add(0).cast::<i64>();
                     let l2 = *ptr0.add(8).cast::<i32>();
-                    Datetime { seconds: l1 as u64, nanoseconds: l2 as u32 }
+                    Datetime {
+                        seconds: l1 as u64,
+                        nanoseconds: l2 as u32,
+                    }
                 }
             }
         }
@@ -948,8 +966,7 @@ pub mod wasi {
         pub mod types {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             pub type InputStream = super::super::super::wasi::io::streams::InputStream;
             pub type OutputStream = super::super::super::wasi::io::streams::OutputStream;
@@ -969,7 +986,10 @@ pub mod wasi {
                 Socket,
             }
             impl ::core::fmt::Debug for DescriptorType {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
                         DescriptorType::Unknown => {
                             f.debug_tuple("DescriptorType::Unknown").finish()
@@ -983,14 +1003,18 @@ pub mod wasi {
                         DescriptorType::Directory => {
                             f.debug_tuple("DescriptorType::Directory").finish()
                         }
-                        DescriptorType::Fifo => f.debug_tuple("DescriptorType::Fifo").finish(),
+                        DescriptorType::Fifo => {
+                            f.debug_tuple("DescriptorType::Fifo").finish()
+                        }
                         DescriptorType::SymbolicLink => {
                             f.debug_tuple("DescriptorType::SymbolicLink").finish()
                         }
                         DescriptorType::RegularFile => {
                             f.debug_tuple("DescriptorType::RegularFile").finish()
                         }
-                        DescriptorType::Socket => f.debug_tuple("DescriptorType::Socket").finish(),
+                        DescriptorType::Socket => {
+                            f.debug_tuple("DescriptorType::Socket").finish()
+                        }
                     }
                 }
             }
@@ -1040,13 +1064,19 @@ pub mod wasi {
                 pub status_change_timestamp: Option<Datetime>,
             }
             impl ::core::fmt::Debug for DescriptorStat {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("DescriptorStat")
                         .field("type", &self.type_)
                         .field("link-count", &self.link_count)
                         .field("size", &self.size)
                         .field("data-access-timestamp", &self.data_access_timestamp)
-                        .field("data-modification-timestamp", &self.data_modification_timestamp)
+                        .field(
+                            "data-modification-timestamp",
+                            &self.data_modification_timestamp,
+                        )
                         .field("status-change-timestamp", &self.status_change_timestamp)
                         .finish()
                 }
@@ -1058,9 +1088,14 @@ pub mod wasi {
                 Timestamp(Datetime),
             }
             impl ::core::fmt::Debug for NewTimestamp {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
-                        NewTimestamp::NoChange => f.debug_tuple("NewTimestamp::NoChange").finish(),
+                        NewTimestamp::NoChange => {
+                            f.debug_tuple("NewTimestamp::NoChange").finish()
+                        }
                         NewTimestamp::Now => f.debug_tuple("NewTimestamp::Now").finish(),
                         NewTimestamp::Timestamp(e) => {
                             f.debug_tuple("NewTimestamp::Timestamp").field(e).finish()
@@ -1074,7 +1109,10 @@ pub mod wasi {
                 pub name: _rt::String,
             }
             impl ::core::fmt::Debug for DirectoryEntry {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("DirectoryEntry")
                         .field("type", &self.type_)
                         .field("name", &self.name)
@@ -1207,7 +1245,10 @@ pub mod wasi {
                 }
             }
             impl ::core::fmt::Debug for ErrorCode {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("ErrorCode")
                         .field("code", &(*self as i32))
                         .field("name", &self.name())
@@ -1216,8 +1257,11 @@ pub mod wasi {
                 }
             }
             impl ::core::fmt::Display for ErrorCode {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-                    write!(f, "{} (error {})", self.name(), *self as i32)
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
+                    write!(f, "{} (error {})", self.name(), * self as i32)
                 }
             }
             impl std::error::Error for ErrorCode {}
@@ -1280,10 +1324,15 @@ pub mod wasi {
                 NoReuse,
             }
             impl ::core::fmt::Debug for Advice {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
                         Advice::Normal => f.debug_tuple("Advice::Normal").finish(),
-                        Advice::Sequential => f.debug_tuple("Advice::Sequential").finish(),
+                        Advice::Sequential => {
+                            f.debug_tuple("Advice::Sequential").finish()
+                        }
                         Advice::Random => f.debug_tuple("Advice::Random").finish(),
                         Advice::WillNeed => f.debug_tuple("Advice::WillNeed").finish(),
                         Advice::DontNeed => f.debug_tuple("Advice::DontNeed").finish(),
@@ -1315,7 +1364,10 @@ pub mod wasi {
                 pub upper: u64,
             }
             impl ::core::fmt::Debug for MetadataHashValue {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("MetadataHashValue")
                         .field("lower", &self.lower)
                         .field("upper", &self.upper)
@@ -1330,7 +1382,9 @@ pub mod wasi {
             impl Descriptor {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -1365,7 +1419,9 @@ pub mod wasi {
             impl DirectoryEntryStream {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -1394,11 +1450,16 @@ pub mod wasi {
             }
             impl Descriptor {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn read_via_stream(&self, offset: Filesize) -> Result<InputStream, ErrorCode> {
+                pub fn read_via_stream(
+                    &self,
+                    offset: Filesize,
+                ) -> Result<InputStream, ErrorCode> {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -1443,7 +1504,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -1485,7 +1548,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -1532,7 +1597,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -1575,7 +1642,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -1612,7 +1681,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -1653,7 +1724,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -1693,7 +1766,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -1734,7 +1809,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let (result1_0, result1_1, result1_2) = match data_access_timestamp {
                             NewTimestamp::NoChange => (0i32, 0i64, 0i32),
                             NewTimestamp::Now => (1i32, 0i64, 0i32),
@@ -1824,7 +1901,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -1879,7 +1958,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let vec0 = buffer;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
@@ -1888,7 +1969,13 @@ pub mod wasi {
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
                         extern "C" {
                             #[link_name = "[method]descriptor.write"]
-                            fn wit_import(_: i32, _: *mut u8, _: usize, _: i64, _: *mut u8);
+                            fn wit_import(
+                                _: i32,
+                                _: *mut u8,
+                                _: usize,
+                                _: i64,
+                                _: *mut u8,
+                            );
                         }
                         #[cfg(not(target_arch = "wasm32"))]
                         fn wit_import(_: i32, _: *mut u8, _: usize, _: i64, _: *mut u8) {
@@ -1928,7 +2015,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -1968,7 +2057,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -2005,7 +2096,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let vec0 = path;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
@@ -2045,7 +2138,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 104]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 104]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 104],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -2143,7 +2238,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 104]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 104]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 104],
+                        );
                         let flags0 = path_flags;
                         let vec1 = path;
                         let ptr1 = vec1.as_ptr().cast::<u8>();
@@ -2153,7 +2250,13 @@ pub mod wasi {
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
                         extern "C" {
                             #[link_name = "[method]descriptor.stat-at"]
-                            fn wit_import(_: i32, _: i32, _: *mut u8, _: usize, _: *mut u8);
+                            fn wit_import(
+                                _: i32,
+                                _: i32,
+                                _: *mut u8,
+                                _: usize,
+                                _: *mut u8,
+                            );
                         }
                         #[cfg(not(target_arch = "wasm32"))]
                         fn wit_import(_: i32, _: i32, _: *mut u8, _: usize, _: *mut u8) {
@@ -2253,7 +2356,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let flags0 = path_flags;
                         let vec1 = path;
                         let ptr1 = vec1.as_ptr().cast::<u8>();
@@ -2358,7 +2463,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let flags0 = old_path_flags;
                         let vec1 = old_path;
                         let ptr1 = vec1.as_ptr().cast::<u8>();
@@ -2435,7 +2542,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let flags0 = path_flags;
                         let vec1 = path;
                         let ptr1 = vec1.as_ptr().cast::<u8>();
@@ -2505,7 +2614,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let vec0 = path;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
@@ -2528,7 +2639,11 @@ pub mod wasi {
                                     let l3 = *ptr1.add(4).cast::<*mut u8>();
                                     let l4 = *ptr1.add(8).cast::<usize>();
                                     let len5 = l4;
-                                    let bytes5 = _rt::Vec::from_raw_parts(l3.cast(), len5, len5);
+                                    let bytes5 = _rt::Vec::from_raw_parts(
+                                        l3.cast(),
+                                        len5,
+                                        len5,
+                                    );
                                     _rt::string_lift(bytes5)
                                 };
                                 Ok(e)
@@ -2551,7 +2666,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let vec0 = path;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
@@ -2596,7 +2713,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let vec0 = old_path;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
@@ -2659,11 +2778,17 @@ pub mod wasi {
             }
             impl Descriptor {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn symlink_at(&self, old_path: &str, new_path: &str) -> Result<(), ErrorCode> {
+                pub fn symlink_at(
+                    &self,
+                    old_path: &str,
+                    new_path: &str,
+                ) -> Result<(), ErrorCode> {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let vec0 = old_path;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
@@ -2727,7 +2852,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let vec0 = path;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
@@ -2775,7 +2902,10 @@ pub mod wasi {
                         fn wit_import(_: i32, _: i32) -> i32 {
                             unreachable!()
                         }
-                        let ret = wit_import((self).handle() as i32, (other).handle() as i32);
+                        let ret = wit_import(
+                            (self).handle() as i32,
+                            (other).handle() as i32,
+                        );
                         _rt::bool_lift(ret as u8)
                     }
                 }
@@ -2786,7 +2916,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 24]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 24]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 24],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -2805,7 +2937,10 @@ pub mod wasi {
                                 let e = {
                                     let l2 = *ptr0.add(8).cast::<i64>();
                                     let l3 = *ptr0.add(16).cast::<i64>();
-                                    MetadataHashValue { lower: l2 as u64, upper: l3 as u64 }
+                                    MetadataHashValue {
+                                        lower: l2 as u64,
+                                        upper: l3 as u64,
+                                    }
                                 };
                                 Ok(e)
                             }
@@ -2831,7 +2966,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 24]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 24]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 24],
+                        );
                         let flags0 = path_flags;
                         let vec1 = path;
                         let ptr1 = vec1.as_ptr().cast::<u8>();
@@ -2841,7 +2978,13 @@ pub mod wasi {
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
                         extern "C" {
                             #[link_name = "[method]descriptor.metadata-hash-at"]
-                            fn wit_import(_: i32, _: i32, _: *mut u8, _: usize, _: *mut u8);
+                            fn wit_import(
+                                _: i32,
+                                _: i32,
+                                _: *mut u8,
+                                _: usize,
+                                _: *mut u8,
+                            );
                         }
                         #[cfg(not(target_arch = "wasm32"))]
                         fn wit_import(_: i32, _: i32, _: *mut u8, _: usize, _: *mut u8) {
@@ -2860,7 +3003,10 @@ pub mod wasi {
                                 let e = {
                                     let l4 = *ptr2.add(8).cast::<i64>();
                                     let l5 = *ptr2.add(16).cast::<i64>();
-                                    MetadataHashValue { lower: l4 as u64, upper: l5 as u64 }
+                                    MetadataHashValue {
+                                        lower: l4 as u64,
+                                        upper: l5 as u64,
+                                    }
                                 };
                                 Ok(e)
                             }
@@ -2878,11 +3024,15 @@ pub mod wasi {
             }
             impl DirectoryEntryStream {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn read_directory_entry(&self) -> Result<Option<DirectoryEntry>, ErrorCode> {
+                pub fn read_directory_entry(
+                    &self,
+                ) -> Result<Option<DirectoryEntry>, ErrorCode> {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 20]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 20]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 20],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:filesystem/types@0.2.0")]
@@ -2908,8 +3058,11 @@ pub mod wasi {
                                                 let l4 = *ptr0.add(12).cast::<*mut u8>();
                                                 let l5 = *ptr0.add(16).cast::<usize>();
                                                 let len6 = l5;
-                                                let bytes6 =
-                                                    _rt::Vec::from_raw_parts(l4.cast(), len6, len6);
+                                                let bytes6 = _rt::Vec::from_raw_parts(
+                                                    l4.cast(),
+                                                    len6,
+                                                    len6,
+                                                );
                                                 DirectoryEntry {
                                                     type_: DescriptorType::_lift(l3 as u8),
                                                     name: _rt::string_lift(bytes6),
@@ -2971,8 +3124,7 @@ pub mod wasi {
         pub mod preopens {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             pub type Descriptor = super::super::super::wasi::filesystem::types::Descriptor;
             #[allow(unused_unsafe, clippy::all)]
@@ -3027,8 +3179,7 @@ pub mod wasi {
         pub mod types {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             pub type Duration = super::super::super::wasi::clocks::monotonic_clock::Duration;
             pub type InputStream = super::super::super::wasi::io::streams::InputStream;
@@ -3049,7 +3200,10 @@ pub mod wasi {
                 Other(_rt::String),
             }
             impl ::core::fmt::Debug for Method {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
                         Method::Get => f.debug_tuple("Method::Get").finish(),
                         Method::Head => f.debug_tuple("Method::Head").finish(),
@@ -3060,7 +3214,9 @@ pub mod wasi {
                         Method::Options => f.debug_tuple("Method::Options").finish(),
                         Method::Trace => f.debug_tuple("Method::Trace").finish(),
                         Method::Patch => f.debug_tuple("Method::Patch").finish(),
-                        Method::Other(e) => f.debug_tuple("Method::Other").field(e).finish(),
+                        Method::Other(e) => {
+                            f.debug_tuple("Method::Other").field(e).finish()
+                        }
                     }
                 }
             }
@@ -3071,11 +3227,16 @@ pub mod wasi {
                 Other(_rt::String),
             }
             impl ::core::fmt::Debug for Scheme {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
                         Scheme::Http => f.debug_tuple("Scheme::Http").finish(),
                         Scheme::Https => f.debug_tuple("Scheme::Https").finish(),
-                        Scheme::Other(e) => f.debug_tuple("Scheme::Other").field(e).finish(),
+                        Scheme::Other(e) => {
+                            f.debug_tuple("Scheme::Other").field(e).finish()
+                        }
                     }
                 }
             }
@@ -3085,7 +3246,10 @@ pub mod wasi {
                 pub info_code: Option<u16>,
             }
             impl ::core::fmt::Debug for DnsErrorPayload {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("DnsErrorPayload")
                         .field("rcode", &self.rcode)
                         .field("info-code", &self.info_code)
@@ -3098,7 +3262,10 @@ pub mod wasi {
                 pub alert_message: Option<_rt::String>,
             }
             impl ::core::fmt::Debug for TlsAlertReceivedPayload {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("TlsAlertReceivedPayload")
                         .field("alert-id", &self.alert_id)
                         .field("alert-message", &self.alert_message)
@@ -3111,7 +3278,10 @@ pub mod wasi {
                 pub field_size: Option<u32>,
             }
             impl ::core::fmt::Debug for FieldSizePayload {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("FieldSizePayload")
                         .field("field-name", &self.field_name)
                         .field("field-size", &self.field_size)
@@ -3161,9 +3331,14 @@ pub mod wasi {
                 InternalError(Option<_rt::String>),
             }
             impl ::core::fmt::Debug for ErrorCode {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
-                        ErrorCode::DnsTimeout => f.debug_tuple("ErrorCode::DnsTimeout").finish(),
+                        ErrorCode::DnsTimeout => {
+                            f.debug_tuple("ErrorCode::DnsTimeout").finish()
+                        }
                         ErrorCode::DnsError(e) => {
                             f.debug_tuple("ErrorCode::DnsError").field(e).finish()
                         }
@@ -3204,16 +3379,21 @@ pub mod wasi {
                             f.debug_tuple("ErrorCode::TlsCertificateError").finish()
                         }
                         ErrorCode::TlsAlertReceived(e) => {
-                            f.debug_tuple("ErrorCode::TlsAlertReceived").field(e).finish()
+                            f.debug_tuple("ErrorCode::TlsAlertReceived")
+                                .field(e)
+                                .finish()
                         }
                         ErrorCode::HttpRequestDenied => {
                             f.debug_tuple("ErrorCode::HttpRequestDenied").finish()
                         }
                         ErrorCode::HttpRequestLengthRequired => {
-                            f.debug_tuple("ErrorCode::HttpRequestLengthRequired").finish()
+                            f.debug_tuple("ErrorCode::HttpRequestLengthRequired")
+                                .finish()
                         }
                         ErrorCode::HttpRequestBodySize(e) => {
-                            f.debug_tuple("ErrorCode::HttpRequestBodySize").field(e).finish()
+                            f.debug_tuple("ErrorCode::HttpRequestBodySize")
+                                .field(e)
+                                .finish()
                         }
                         ErrorCode::HttpRequestMethodInvalid => {
                             f.debug_tuple("ErrorCode::HttpRequestMethodInvalid").finish()
@@ -3224,45 +3404,63 @@ pub mod wasi {
                         ErrorCode::HttpRequestUriTooLong => {
                             f.debug_tuple("ErrorCode::HttpRequestUriTooLong").finish()
                         }
-                        ErrorCode::HttpRequestHeaderSectionSize(e) => f
-                            .debug_tuple("ErrorCode::HttpRequestHeaderSectionSize")
-                            .field(e)
-                            .finish(),
-                        ErrorCode::HttpRequestHeaderSize(e) => {
-                            f.debug_tuple("ErrorCode::HttpRequestHeaderSize").field(e).finish()
+                        ErrorCode::HttpRequestHeaderSectionSize(e) => {
+                            f.debug_tuple("ErrorCode::HttpRequestHeaderSectionSize")
+                                .field(e)
+                                .finish()
                         }
-                        ErrorCode::HttpRequestTrailerSectionSize(e) => f
-                            .debug_tuple("ErrorCode::HttpRequestTrailerSectionSize")
-                            .field(e)
-                            .finish(),
+                        ErrorCode::HttpRequestHeaderSize(e) => {
+                            f.debug_tuple("ErrorCode::HttpRequestHeaderSize")
+                                .field(e)
+                                .finish()
+                        }
+                        ErrorCode::HttpRequestTrailerSectionSize(e) => {
+                            f.debug_tuple("ErrorCode::HttpRequestTrailerSectionSize")
+                                .field(e)
+                                .finish()
+                        }
                         ErrorCode::HttpRequestTrailerSize(e) => {
-                            f.debug_tuple("ErrorCode::HttpRequestTrailerSize").field(e).finish()
+                            f.debug_tuple("ErrorCode::HttpRequestTrailerSize")
+                                .field(e)
+                                .finish()
                         }
                         ErrorCode::HttpResponseIncomplete => {
                             f.debug_tuple("ErrorCode::HttpResponseIncomplete").finish()
                         }
-                        ErrorCode::HttpResponseHeaderSectionSize(e) => f
-                            .debug_tuple("ErrorCode::HttpResponseHeaderSectionSize")
-                            .field(e)
-                            .finish(),
+                        ErrorCode::HttpResponseHeaderSectionSize(e) => {
+                            f.debug_tuple("ErrorCode::HttpResponseHeaderSectionSize")
+                                .field(e)
+                                .finish()
+                        }
                         ErrorCode::HttpResponseHeaderSize(e) => {
-                            f.debug_tuple("ErrorCode::HttpResponseHeaderSize").field(e).finish()
+                            f.debug_tuple("ErrorCode::HttpResponseHeaderSize")
+                                .field(e)
+                                .finish()
                         }
                         ErrorCode::HttpResponseBodySize(e) => {
-                            f.debug_tuple("ErrorCode::HttpResponseBodySize").field(e).finish()
+                            f.debug_tuple("ErrorCode::HttpResponseBodySize")
+                                .field(e)
+                                .finish()
                         }
-                        ErrorCode::HttpResponseTrailerSectionSize(e) => f
-                            .debug_tuple("ErrorCode::HttpResponseTrailerSectionSize")
-                            .field(e)
-                            .finish(),
+                        ErrorCode::HttpResponseTrailerSectionSize(e) => {
+                            f.debug_tuple("ErrorCode::HttpResponseTrailerSectionSize")
+                                .field(e)
+                                .finish()
+                        }
                         ErrorCode::HttpResponseTrailerSize(e) => {
-                            f.debug_tuple("ErrorCode::HttpResponseTrailerSize").field(e).finish()
+                            f.debug_tuple("ErrorCode::HttpResponseTrailerSize")
+                                .field(e)
+                                .finish()
                         }
                         ErrorCode::HttpResponseTransferCoding(e) => {
-                            f.debug_tuple("ErrorCode::HttpResponseTransferCoding").field(e).finish()
+                            f.debug_tuple("ErrorCode::HttpResponseTransferCoding")
+                                .field(e)
+                                .finish()
                         }
                         ErrorCode::HttpResponseContentCoding(e) => {
-                            f.debug_tuple("ErrorCode::HttpResponseContentCoding").field(e).finish()
+                            f.debug_tuple("ErrorCode::HttpResponseContentCoding")
+                                .field(e)
+                                .finish()
                         }
                         ErrorCode::HttpResponseTimeout => {
                             f.debug_tuple("ErrorCode::HttpResponseTimeout").finish()
@@ -3286,7 +3484,10 @@ pub mod wasi {
                 }
             }
             impl ::core::fmt::Display for ErrorCode {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     write!(f, "{:?}", self)
                 }
             }
@@ -3298,18 +3499,28 @@ pub mod wasi {
                 Immutable,
             }
             impl ::core::fmt::Debug for HeaderError {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
                         HeaderError::InvalidSyntax => {
                             f.debug_tuple("HeaderError::InvalidSyntax").finish()
                         }
-                        HeaderError::Forbidden => f.debug_tuple("HeaderError::Forbidden").finish(),
-                        HeaderError::Immutable => f.debug_tuple("HeaderError::Immutable").finish(),
+                        HeaderError::Forbidden => {
+                            f.debug_tuple("HeaderError::Forbidden").finish()
+                        }
+                        HeaderError::Immutable => {
+                            f.debug_tuple("HeaderError::Immutable").finish()
+                        }
                     }
                 }
             }
             impl ::core::fmt::Display for HeaderError {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     write!(f, "{:?}", self)
                 }
             }
@@ -3324,7 +3535,9 @@ pub mod wasi {
             impl Fields {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -3361,7 +3574,9 @@ pub mod wasi {
             impl IncomingRequest {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -3396,7 +3611,9 @@ pub mod wasi {
             impl OutgoingRequest {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -3431,7 +3648,9 @@ pub mod wasi {
             impl RequestOptions {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -3466,7 +3685,9 @@ pub mod wasi {
             impl ResponseOutparam {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -3502,7 +3723,9 @@ pub mod wasi {
             impl IncomingResponse {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -3537,7 +3760,9 @@ pub mod wasi {
             impl IncomingBody {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -3572,7 +3797,9 @@ pub mod wasi {
             impl FutureTrailers {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -3607,7 +3834,9 @@ pub mod wasi {
             impl OutgoingResponse {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -3642,7 +3871,9 @@ pub mod wasi {
             impl OutgoingBody {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -3677,7 +3908,9 @@ pub mod wasi {
             impl FutureIncomingResponse {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -3731,11 +3964,15 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let vec3 = entries;
                         let len3 = vec3.len();
-                        let layout3 =
-                            _rt::alloc::Layout::from_size_align_unchecked(vec3.len() * 16, 4);
+                        let layout3 = _rt::alloc::Layout::from_size_align_unchecked(
+                            vec3.len() * 16,
+                            4,
+                        );
                         let result3 = if layout3.size() != 0 {
                             let ptr = _rt::alloc::alloc(layout3).cast::<u8>();
                             if ptr.is_null() {
@@ -3811,7 +4048,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let vec0 = name;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
@@ -3864,7 +4103,11 @@ pub mod wasi {
                         fn wit_import(_: i32, _: *mut u8, _: usize) -> i32 {
                             unreachable!()
                         }
-                        let ret = wit_import((self).handle() as i32, ptr0.cast_mut(), len0);
+                        let ret = wit_import(
+                            (self).handle() as i32,
+                            ptr0.cast_mut(),
+                            len0,
+                        );
                         _rt::bool_lift(ret as u8)
                     }
                 }
@@ -3879,14 +4122,18 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let vec0 = name;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
                         let vec2 = value;
                         let len2 = vec2.len();
-                        let layout2 =
-                            _rt::alloc::Layout::from_size_align_unchecked(vec2.len() * 8, 4);
+                        let layout2 = _rt::alloc::Layout::from_size_align_unchecked(
+                            vec2.len() * 8,
+                            4,
+                        );
                         let result2 = if layout2.size() != 0 {
                             let ptr = _rt::alloc::alloc(layout2).cast::<u8>();
                             if ptr.is_null() {
@@ -3974,7 +4221,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let vec0 = name;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
@@ -4026,7 +4275,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let vec0 = name;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
@@ -4098,7 +4349,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4122,7 +4375,11 @@ pub mod wasi {
                                 let l3 = *base.add(0).cast::<*mut u8>();
                                 let l4 = *base.add(4).cast::<usize>();
                                 let len5 = l4;
-                                let bytes5 = _rt::Vec::from_raw_parts(l3.cast(), len5, len5);
+                                let bytes5 = _rt::Vec::from_raw_parts(
+                                    l3.cast(),
+                                    len5,
+                                    len5,
+                                );
                                 let l6 = *base.add(8).cast::<*mut u8>();
                                 let l7 = *base.add(12).cast::<usize>();
                                 let len8 = l7;
@@ -4163,7 +4420,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4193,7 +4452,11 @@ pub mod wasi {
                                     let l2 = *ptr0.add(4).cast::<*mut u8>();
                                     let l3 = *ptr0.add(8).cast::<usize>();
                                     let len4 = l3;
-                                    let bytes4 = _rt::Vec::from_raw_parts(l2.cast(), len4, len4);
+                                    let bytes4 = _rt::Vec::from_raw_parts(
+                                        l2.cast(),
+                                        len4,
+                                        len4,
+                                    );
                                     _rt::string_lift(bytes4)
                                 };
                                 Method::Other(e5)
@@ -4209,7 +4472,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4230,7 +4495,11 @@ pub mod wasi {
                                     let l2 = *ptr0.add(4).cast::<*mut u8>();
                                     let l3 = *ptr0.add(8).cast::<usize>();
                                     let len4 = l3;
-                                    let bytes4 = _rt::Vec::from_raw_parts(l2.cast(), len4, len4);
+                                    let bytes4 = _rt::Vec::from_raw_parts(
+                                        l2.cast(),
+                                        len4,
+                                        len4,
+                                    );
                                     _rt::string_lift(bytes4)
                                 };
                                 Some(e)
@@ -4246,7 +4515,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4274,8 +4545,11 @@ pub mod wasi {
                                                 let l3 = *ptr0.add(8).cast::<*mut u8>();
                                                 let l4 = *ptr0.add(12).cast::<usize>();
                                                 let len5 = l4;
-                                                let bytes5 =
-                                                    _rt::Vec::from_raw_parts(l3.cast(), len5, len5);
+                                                let bytes5 = _rt::Vec::from_raw_parts(
+                                                    l3.cast(),
+                                                    len5,
+                                                    len5,
+                                                );
                                                 _rt::string_lift(bytes5)
                                             };
                                             Scheme::Other(e6)
@@ -4296,7 +4570,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4317,7 +4593,11 @@ pub mod wasi {
                                     let l2 = *ptr0.add(4).cast::<*mut u8>();
                                     let l3 = *ptr0.add(8).cast::<usize>();
                                     let len4 = l3;
-                                    let bytes4 = _rt::Vec::from_raw_parts(l2.cast(), len4, len4);
+                                    let bytes4 = _rt::Vec::from_raw_parts(
+                                        l2.cast(),
+                                        len4,
+                                        len4,
+                                    );
                                     _rt::string_lift(bytes4)
                                 };
                                 Some(e)
@@ -4352,7 +4632,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4408,7 +4690,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4445,7 +4729,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4475,7 +4761,11 @@ pub mod wasi {
                                     let l2 = *ptr0.add(4).cast::<*mut u8>();
                                     let l3 = *ptr0.add(8).cast::<usize>();
                                     let len4 = l3;
-                                    let bytes4 = _rt::Vec::from_raw_parts(l2.cast(), len4, len4);
+                                    let bytes4 = _rt::Vec::from_raw_parts(
+                                        l2.cast(),
+                                        len4,
+                                        len4,
+                                    );
                                     _rt::string_lift(bytes4)
                                 };
                                 Method::Other(e5)
@@ -4516,8 +4806,12 @@ pub mod wasi {
                         fn wit_import(_: i32, _: i32, _: *mut u8, _: usize) -> i32 {
                             unreachable!()
                         }
-                        let ret =
-                            wit_import((self).handle() as i32, result1_0, result1_1, result1_2);
+                        let ret = wit_import(
+                            (self).handle() as i32,
+                            result1_0,
+                            result1_1,
+                            result1_2,
+                        );
                         match ret {
                             0 => {
                                 let e = ();
@@ -4538,7 +4832,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4559,7 +4855,11 @@ pub mod wasi {
                                     let l2 = *ptr0.add(4).cast::<*mut u8>();
                                     let l3 = *ptr0.add(8).cast::<usize>();
                                     let len4 = l3;
-                                    let bytes4 = _rt::Vec::from_raw_parts(l2.cast(), len4, len4);
+                                    let bytes4 = _rt::Vec::from_raw_parts(
+                                        l2.cast(),
+                                        len4,
+                                        len4,
+                                    );
                                     _rt::string_lift(bytes4)
                                 };
                                 Some(e)
@@ -4571,7 +4871,10 @@ pub mod wasi {
             }
             impl OutgoingRequest {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn set_path_with_query(&self, path_with_query: Option<&str>) -> Result<(), ()> {
+                pub fn set_path_with_query(
+                    &self,
+                    path_with_query: Option<&str>,
+                ) -> Result<(), ()> {
                     unsafe {
                         let (result1_0, result1_1, result1_2) = match path_with_query {
                             Some(e) => {
@@ -4592,8 +4895,12 @@ pub mod wasi {
                         fn wit_import(_: i32, _: i32, _: *mut u8, _: usize) -> i32 {
                             unreachable!()
                         }
-                        let ret =
-                            wit_import((self).handle() as i32, result1_0, result1_1, result1_2);
+                        let ret = wit_import(
+                            (self).handle() as i32,
+                            result1_0,
+                            result1_1,
+                            result1_2,
+                        );
                         match ret {
                             0 => {
                                 let e = ();
@@ -4614,7 +4921,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4642,8 +4951,11 @@ pub mod wasi {
                                                 let l3 = *ptr0.add(8).cast::<*mut u8>();
                                                 let l4 = *ptr0.add(12).cast::<usize>();
                                                 let len5 = l4;
-                                                let bytes5 =
-                                                    _rt::Vec::from_raw_parts(l3.cast(), len5, len5);
+                                                let bytes5 = _rt::Vec::from_raw_parts(
+                                                    l3.cast(),
+                                                    len5,
+                                                    len5,
+                                                );
                                                 _rt::string_lift(bytes5)
                                             };
                                             Scheme::Other(e6)
@@ -4682,10 +4994,22 @@ pub mod wasi {
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
                         extern "C" {
                             #[link_name = "[method]outgoing-request.set-scheme"]
-                            fn wit_import(_: i32, _: i32, _: i32, _: *mut u8, _: usize) -> i32;
+                            fn wit_import(
+                                _: i32,
+                                _: i32,
+                                _: i32,
+                                _: *mut u8,
+                                _: usize,
+                            ) -> i32;
                         }
                         #[cfg(not(target_arch = "wasm32"))]
-                        fn wit_import(_: i32, _: i32, _: i32, _: *mut u8, _: usize) -> i32 {
+                        fn wit_import(
+                            _: i32,
+                            _: i32,
+                            _: i32,
+                            _: *mut u8,
+                            _: usize,
+                        ) -> i32 {
                             unreachable!()
                         }
                         let ret = wit_import(
@@ -4715,7 +5039,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4736,7 +5062,11 @@ pub mod wasi {
                                     let l2 = *ptr0.add(4).cast::<*mut u8>();
                                     let l3 = *ptr0.add(8).cast::<usize>();
                                     let len4 = l3;
-                                    let bytes4 = _rt::Vec::from_raw_parts(l2.cast(), len4, len4);
+                                    let bytes4 = _rt::Vec::from_raw_parts(
+                                        l2.cast(),
+                                        len4,
+                                        len4,
+                                    );
                                     _rt::string_lift(bytes4)
                                 };
                                 Some(e)
@@ -4769,8 +5099,12 @@ pub mod wasi {
                         fn wit_import(_: i32, _: i32, _: *mut u8, _: usize) -> i32 {
                             unreachable!()
                         }
-                        let ret =
-                            wit_import((self).handle() as i32, result1_0, result1_1, result1_2);
+                        let ret = wit_import(
+                            (self).handle() as i32,
+                            result1_0,
+                            result1_1,
+                            result1_2,
+                        );
                         match ret {
                             0 => {
                                 let e = ();
@@ -4829,7 +5163,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4859,7 +5195,10 @@ pub mod wasi {
             }
             impl RequestOptions {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn set_connect_timeout(&self, duration: Option<Duration>) -> Result<(), ()> {
+                pub fn set_connect_timeout(
+                    &self,
+                    duration: Option<Duration>,
+                ) -> Result<(), ()> {
                     unsafe {
                         let (result0_0, result0_1) = match duration {
                             Some(e) => (1i32, _rt::as_i64(e)),
@@ -4875,7 +5214,11 @@ pub mod wasi {
                         fn wit_import(_: i32, _: i32, _: i64) -> i32 {
                             unreachable!()
                         }
-                        let ret = wit_import((self).handle() as i32, result0_0, result0_1);
+                        let ret = wit_import(
+                            (self).handle() as i32,
+                            result0_0,
+                            result0_1,
+                        );
                         match ret {
                             0 => {
                                 let e = ();
@@ -4896,7 +5239,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -4926,7 +5271,10 @@ pub mod wasi {
             }
             impl RequestOptions {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn set_first_byte_timeout(&self, duration: Option<Duration>) -> Result<(), ()> {
+                pub fn set_first_byte_timeout(
+                    &self,
+                    duration: Option<Duration>,
+                ) -> Result<(), ()> {
                     unsafe {
                         let (result0_0, result0_1) = match duration {
                             Some(e) => (1i32, _rt::as_i64(e)),
@@ -4942,7 +5290,11 @@ pub mod wasi {
                         fn wit_import(_: i32, _: i32, _: i64) -> i32 {
                             unreachable!()
                         }
-                        let ret = wit_import((self).handle() as i32, result0_0, result0_1);
+                        let ret = wit_import(
+                            (self).handle() as i32,
+                            result0_0,
+                            result0_1,
+                        );
                         match ret {
                             0 => {
                                 let e = ();
@@ -4963,7 +5315,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -5012,7 +5366,11 @@ pub mod wasi {
                         fn wit_import(_: i32, _: i32, _: i64) -> i32 {
                             unreachable!()
                         }
-                        let ret = wit_import((self).handle() as i32, result0_0, result0_1);
+                        let ret = wit_import(
+                            (self).handle() as i32,
+                            result0_0,
+                            result0_1,
+                        );
                         match ret {
                             0 => {
                                 let e = ();
@@ -5029,7 +5387,10 @@ pub mod wasi {
             }
             impl ResponseOutparam {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn set(param: ResponseOutparam, response: Result<OutgoingResponse, ErrorCode>) {
+                pub fn set(
+                    param: ResponseOutparam,
+                    response: Result<OutgoingResponse, ErrorCode>,
+                ) {
                     unsafe {
                         let (
                             result38_0,
@@ -5041,16 +5402,18 @@ pub mod wasi {
                             result38_6,
                             result38_7,
                         ) = match &response {
-                            Ok(e) => (
-                                0i32,
-                                (e).take_handle() as i32,
-                                0i32,
-                                ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                ::core::ptr::null_mut(),
-                                ::core::ptr::null_mut(),
-                                0usize,
-                                0i32,
-                            ),
+                            Ok(e) => {
+                                (
+                                    0i32,
+                                    (e).take_handle() as i32,
+                                    0i32,
+                                    ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                    ::core::ptr::null_mut(),
+                                    ::core::ptr::null_mut(),
+                                    0usize,
+                                    0i32,
+                                )
+                            }
                             Err(e) => {
                                 let (
                                     result37_0,
@@ -5061,15 +5424,17 @@ pub mod wasi {
                                     result37_5,
                                     result37_6,
                                 ) = match e {
-                                    ErrorCode::DnsTimeout => (
-                                        0i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
+                                    ErrorCode::DnsTimeout => {
+                                        (
+                                            0i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
                                     ErrorCode::DnsError(e) => {
                                         let DnsErrorPayload {
                                             rcode: rcode0,
@@ -5092,8 +5457,7 @@ pub mod wasi {
                                             1i32,
                                             result2_0,
                                             {
-                                                let mut t =
-                                                    ::core::mem::MaybeUninit::<u64>::uninit();
+                                                let mut t = ::core::mem::MaybeUninit::<u64>::uninit();
                                                 t.as_mut_ptr().cast::<*mut u8>().write(result2_1);
                                                 t
                                             },
@@ -5103,114 +5467,138 @@ pub mod wasi {
                                             0i32,
                                         )
                                     }
-                                    ErrorCode::DestinationNotFound => (
-                                        2i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::DestinationUnavailable => (
-                                        3i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::DestinationIpProhibited => (
-                                        4i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::DestinationIpUnroutable => (
-                                        5i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::ConnectionRefused => (
-                                        6i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::ConnectionTerminated => (
-                                        7i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::ConnectionTimeout => (
-                                        8i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::ConnectionReadTimeout => (
-                                        9i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::ConnectionWriteTimeout => (
-                                        10i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::ConnectionLimitReached => (
-                                        11i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::TlsProtocolError => (
-                                        12i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::TlsCertificateError => (
-                                        13i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
+                                    ErrorCode::DestinationNotFound => {
+                                        (
+                                            2i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::DestinationUnavailable => {
+                                        (
+                                            3i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::DestinationIpProhibited => {
+                                        (
+                                            4i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::DestinationIpUnroutable => {
+                                        (
+                                            5i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::ConnectionRefused => {
+                                        (
+                                            6i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::ConnectionTerminated => {
+                                        (
+                                            7i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::ConnectionTimeout => {
+                                        (
+                                            8i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::ConnectionReadTimeout => {
+                                        (
+                                            9i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::ConnectionWriteTimeout => {
+                                        (
+                                            10i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::ConnectionLimitReached => {
+                                        (
+                                            11i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::TlsProtocolError => {
+                                        (
+                                            12i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::TlsCertificateError => {
+                                        (
+                                            13i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
                                     ErrorCode::TlsAlertReceived(e) => {
                                         let TlsAlertReceivedPayload {
                                             alert_id: alert_id4,
@@ -5220,8 +5608,7 @@ pub mod wasi {
                                             Some(e) => (1i32, _rt::as_i32(e)),
                                             None => (0i32, 0i32),
                                         };
-                                        let (result7_0, result7_1, result7_2) = match alert_message4
-                                        {
+                                        let (result7_0, result7_1, result7_2) = match alert_message4 {
                                             Some(e) => {
                                                 let vec6 = e;
                                                 let ptr6 = vec6.as_ptr().cast::<u8>();
@@ -5233,33 +5620,35 @@ pub mod wasi {
                                         (
                                             14i32,
                                             result5_0,
-                                            ::core::mem::MaybeUninit::new(
-                                                i64::from(result5_1) as u64
-                                            ),
+                                            ::core::mem::MaybeUninit::new(i64::from(result5_1) as u64),
                                             result7_0 as *mut u8,
                                             result7_1,
                                             result7_2,
                                             0i32,
                                         )
                                     }
-                                    ErrorCode::HttpRequestDenied => (
-                                        15i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::HttpRequestLengthRequired => (
-                                        16i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
+                                    ErrorCode::HttpRequestDenied => {
+                                        (
+                                            15i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::HttpRequestLengthRequired => {
+                                        (
+                                            16i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
                                     ErrorCode::HttpRequestBodySize(e) => {
                                         let (result8_0, result8_1) = match e {
                                             Some(e) => (1i32, _rt::as_i64(e)),
@@ -5275,33 +5664,39 @@ pub mod wasi {
                                             0i32,
                                         )
                                     }
-                                    ErrorCode::HttpRequestMethodInvalid => (
-                                        18i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::HttpRequestUriInvalid => (
-                                        19i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::HttpRequestUriTooLong => (
-                                        20i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
+                                    ErrorCode::HttpRequestMethodInvalid => {
+                                        (
+                                            18i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::HttpRequestUriInvalid => {
+                                        (
+                                            19i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::HttpRequestUriTooLong => {
+                                        (
+                                            20i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
                                     ErrorCode::HttpRequestHeaderSectionSize(e) => {
                                         let (result9_0, result9_1) = match e {
                                             Some(e) => (1i32, _rt::as_i32(e)),
@@ -5310,9 +5705,7 @@ pub mod wasi {
                                         (
                                             21i32,
                                             result9_0,
-                                            ::core::mem::MaybeUninit::new(
-                                                i64::from(result9_1) as u64
-                                            ),
+                                            ::core::mem::MaybeUninit::new(i64::from(result9_1) as u64),
                                             ::core::ptr::null_mut(),
                                             ::core::ptr::null_mut(),
                                             0usize,
@@ -5333,42 +5726,36 @@ pub mod wasi {
                                                     field_name: field_name10,
                                                     field_size: field_size10,
                                                 } = e;
-                                                let (result12_0, result12_1, result12_2) =
-                                                    match field_name10 {
-                                                        Some(e) => {
-                                                            let vec11 = e;
-                                                            let ptr11 = vec11.as_ptr().cast::<u8>();
-                                                            let len11 = vec11.len();
-                                                            (1i32, ptr11.cast_mut(), len11)
-                                                        }
-                                                        None => {
-                                                            (0i32, ::core::ptr::null_mut(), 0usize)
-                                                        }
-                                                    };
+                                                let (result12_0, result12_1, result12_2) = match field_name10 {
+                                                    Some(e) => {
+                                                        let vec11 = e;
+                                                        let ptr11 = vec11.as_ptr().cast::<u8>();
+                                                        let len11 = vec11.len();
+                                                        (1i32, ptr11.cast_mut(), len11)
+                                                    }
+                                                    None => (0i32, ::core::ptr::null_mut(), 0usize),
+                                                };
                                                 let (result13_0, result13_1) = match field_size10 {
                                                     Some(e) => (1i32, _rt::as_i32(e)),
                                                     None => (0i32, 0i32),
                                                 };
                                                 (
-                                                    1i32, result12_0, result12_1, result12_2,
-                                                    result13_0, result13_1,
+                                                    1i32,
+                                                    result12_0,
+                                                    result12_1,
+                                                    result12_2,
+                                                    result13_0,
+                                                    result13_1,
                                                 )
                                             }
-                                            None => (
-                                                0i32,
-                                                0i32,
-                                                ::core::ptr::null_mut(),
-                                                0usize,
-                                                0i32,
-                                                0i32,
-                                            ),
+                                            None => {
+                                                (0i32, 0i32, ::core::ptr::null_mut(), 0usize, 0i32, 0i32)
+                                            }
                                         };
                                         (
                                             22i32,
                                             result14_0,
-                                            ::core::mem::MaybeUninit::new(
-                                                i64::from(result14_1) as u64
-                                            ),
+                                            ::core::mem::MaybeUninit::new(i64::from(result14_1) as u64),
                                             result14_2,
                                             result14_3 as *mut u8,
                                             result14_4 as usize,
@@ -5383,9 +5770,7 @@ pub mod wasi {
                                         (
                                             23i32,
                                             result15_0,
-                                            ::core::mem::MaybeUninit::new(
-                                                i64::from(result15_1) as u64
-                                            ),
+                                            ::core::mem::MaybeUninit::new(i64::from(result15_1) as u64),
                                             ::core::ptr::null_mut(),
                                             ::core::ptr::null_mut(),
                                             0usize,
@@ -5397,16 +5782,15 @@ pub mod wasi {
                                             field_name: field_name16,
                                             field_size: field_size16,
                                         } = e;
-                                        let (result18_0, result18_1, result18_2) =
-                                            match field_name16 {
-                                                Some(e) => {
-                                                    let vec17 = e;
-                                                    let ptr17 = vec17.as_ptr().cast::<u8>();
-                                                    let len17 = vec17.len();
-                                                    (1i32, ptr17.cast_mut(), len17)
-                                                }
-                                                None => (0i32, ::core::ptr::null_mut(), 0usize),
-                                            };
+                                        let (result18_0, result18_1, result18_2) = match field_name16 {
+                                            Some(e) => {
+                                                let vec17 = e;
+                                                let ptr17 = vec17.as_ptr().cast::<u8>();
+                                                let len17 = vec17.len();
+                                                (1i32, ptr17.cast_mut(), len17)
+                                            }
+                                            None => (0i32, ::core::ptr::null_mut(), 0usize),
+                                        };
                                         let (result19_0, result19_1) = match field_size16 {
                                             Some(e) => (1i32, _rt::as_i32(e)),
                                             None => (0i32, 0i32),
@@ -5415,8 +5799,7 @@ pub mod wasi {
                                             24i32,
                                             result18_0,
                                             {
-                                                let mut t =
-                                                    ::core::mem::MaybeUninit::<u64>::uninit();
+                                                let mut t = ::core::mem::MaybeUninit::<u64>::uninit();
                                                 t.as_mut_ptr().cast::<*mut u8>().write(result18_1);
                                                 t
                                             },
@@ -5426,15 +5809,17 @@ pub mod wasi {
                                             0i32,
                                         )
                                     }
-                                    ErrorCode::HttpResponseIncomplete => (
-                                        25i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
+                                    ErrorCode::HttpResponseIncomplete => {
+                                        (
+                                            25i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
                                     ErrorCode::HttpResponseHeaderSectionSize(e) => {
                                         let (result20_0, result20_1) = match e {
                                             Some(e) => (1i32, _rt::as_i32(e)),
@@ -5443,9 +5828,7 @@ pub mod wasi {
                                         (
                                             26i32,
                                             result20_0,
-                                            ::core::mem::MaybeUninit::new(
-                                                i64::from(result20_1) as u64
-                                            ),
+                                            ::core::mem::MaybeUninit::new(i64::from(result20_1) as u64),
                                             ::core::ptr::null_mut(),
                                             ::core::ptr::null_mut(),
                                             0usize,
@@ -5457,16 +5840,15 @@ pub mod wasi {
                                             field_name: field_name21,
                                             field_size: field_size21,
                                         } = e;
-                                        let (result23_0, result23_1, result23_2) =
-                                            match field_name21 {
-                                                Some(e) => {
-                                                    let vec22 = e;
-                                                    let ptr22 = vec22.as_ptr().cast::<u8>();
-                                                    let len22 = vec22.len();
-                                                    (1i32, ptr22.cast_mut(), len22)
-                                                }
-                                                None => (0i32, ::core::ptr::null_mut(), 0usize),
-                                            };
+                                        let (result23_0, result23_1, result23_2) = match field_name21 {
+                                            Some(e) => {
+                                                let vec22 = e;
+                                                let ptr22 = vec22.as_ptr().cast::<u8>();
+                                                let len22 = vec22.len();
+                                                (1i32, ptr22.cast_mut(), len22)
+                                            }
+                                            None => (0i32, ::core::ptr::null_mut(), 0usize),
+                                        };
                                         let (result24_0, result24_1) = match field_size21 {
                                             Some(e) => (1i32, _rt::as_i32(e)),
                                             None => (0i32, 0i32),
@@ -5475,8 +5857,7 @@ pub mod wasi {
                                             27i32,
                                             result23_0,
                                             {
-                                                let mut t =
-                                                    ::core::mem::MaybeUninit::<u64>::uninit();
+                                                let mut t = ::core::mem::MaybeUninit::<u64>::uninit();
                                                 t.as_mut_ptr().cast::<*mut u8>().write(result23_1);
                                                 t
                                             },
@@ -5509,9 +5890,7 @@ pub mod wasi {
                                         (
                                             29i32,
                                             result26_0,
-                                            ::core::mem::MaybeUninit::new(
-                                                i64::from(result26_1) as u64
-                                            ),
+                                            ::core::mem::MaybeUninit::new(i64::from(result26_1) as u64),
                                             ::core::ptr::null_mut(),
                                             ::core::ptr::null_mut(),
                                             0usize,
@@ -5523,16 +5902,15 @@ pub mod wasi {
                                             field_name: field_name27,
                                             field_size: field_size27,
                                         } = e;
-                                        let (result29_0, result29_1, result29_2) =
-                                            match field_name27 {
-                                                Some(e) => {
-                                                    let vec28 = e;
-                                                    let ptr28 = vec28.as_ptr().cast::<u8>();
-                                                    let len28 = vec28.len();
-                                                    (1i32, ptr28.cast_mut(), len28)
-                                                }
-                                                None => (0i32, ::core::ptr::null_mut(), 0usize),
-                                            };
+                                        let (result29_0, result29_1, result29_2) = match field_name27 {
+                                            Some(e) => {
+                                                let vec28 = e;
+                                                let ptr28 = vec28.as_ptr().cast::<u8>();
+                                                let len28 = vec28.len();
+                                                (1i32, ptr28.cast_mut(), len28)
+                                            }
+                                            None => (0i32, ::core::ptr::null_mut(), 0usize),
+                                        };
                                         let (result30_0, result30_1) = match field_size27 {
                                             Some(e) => (1i32, _rt::as_i32(e)),
                                             None => (0i32, 0i32),
@@ -5541,8 +5919,7 @@ pub mod wasi {
                                             30i32,
                                             result29_0,
                                             {
-                                                let mut t =
-                                                    ::core::mem::MaybeUninit::<u64>::uninit();
+                                                let mut t = ::core::mem::MaybeUninit::<u64>::uninit();
                                                 t.as_mut_ptr().cast::<*mut u8>().write(result29_1);
                                                 t
                                             },
@@ -5566,8 +5943,7 @@ pub mod wasi {
                                             31i32,
                                             result32_0,
                                             {
-                                                let mut t =
-                                                    ::core::mem::MaybeUninit::<u64>::uninit();
+                                                let mut t = ::core::mem::MaybeUninit::<u64>::uninit();
                                                 t.as_mut_ptr().cast::<*mut u8>().write(result32_1);
                                                 t
                                             },
@@ -5591,8 +5967,7 @@ pub mod wasi {
                                             32i32,
                                             result34_0,
                                             {
-                                                let mut t =
-                                                    ::core::mem::MaybeUninit::<u64>::uninit();
+                                                let mut t = ::core::mem::MaybeUninit::<u64>::uninit();
                                                 t.as_mut_ptr().cast::<*mut u8>().write(result34_1);
                                                 t
                                             },
@@ -5602,51 +5977,61 @@ pub mod wasi {
                                             0i32,
                                         )
                                     }
-                                    ErrorCode::HttpResponseTimeout => (
-                                        33i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::HttpUpgradeFailed => (
-                                        34i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::HttpProtocolError => (
-                                        35i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::LoopDetected => (
-                                        36i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
-                                    ErrorCode::ConfigurationError => (
-                                        37i32,
-                                        0i32,
-                                        ::core::mem::MaybeUninit::<u64>::zeroed(),
-                                        ::core::ptr::null_mut(),
-                                        ::core::ptr::null_mut(),
-                                        0usize,
-                                        0i32,
-                                    ),
+                                    ErrorCode::HttpResponseTimeout => {
+                                        (
+                                            33i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::HttpUpgradeFailed => {
+                                        (
+                                            34i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::HttpProtocolError => {
+                                        (
+                                            35i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::LoopDetected => {
+                                        (
+                                            36i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
+                                    ErrorCode::ConfigurationError => {
+                                        (
+                                            37i32,
+                                            0i32,
+                                            ::core::mem::MaybeUninit::<u64>::zeroed(),
+                                            ::core::ptr::null_mut(),
+                                            ::core::ptr::null_mut(),
+                                            0usize,
+                                            0i32,
+                                        )
+                                    }
                                     ErrorCode::InternalError(e) => {
                                         let (result36_0, result36_1, result36_2) = match e {
                                             Some(e) => {
@@ -5661,8 +6046,7 @@ pub mod wasi {
                                             38i32,
                                             result36_0,
                                             {
-                                                let mut t =
-                                                    ::core::mem::MaybeUninit::<u64>::uninit();
+                                                let mut t = ::core::mem::MaybeUninit::<u64>::uninit();
                                                 t.as_mut_ptr().cast::<*mut u8>().write(result36_1);
                                                 t
                                             },
@@ -5674,8 +6058,14 @@ pub mod wasi {
                                     }
                                 };
                                 (
-                                    1i32, result37_0, result37_1, result37_2, result37_3,
-                                    result37_4, result37_5, result37_6,
+                                    1i32,
+                                    result37_0,
+                                    result37_1,
+                                    result37_2,
+                                    result37_3,
+                                    result37_4,
+                                    result37_5,
+                                    result37_6,
                                 )
                             }
                         };
@@ -5767,7 +6157,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -5804,7 +6196,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -5871,17 +6265,23 @@ pub mod wasi {
                             unreachable!()
                         }
                         let ret = wit_import((self).handle() as i32);
-                        super::super::super::wasi::io::poll::Pollable::from_handle(ret as u32)
+                        super::super::super::wasi::io::poll::Pollable::from_handle(
+                            ret as u32,
+                        )
                     }
                 }
             }
             impl FutureTrailers {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn get(&self) -> Option<Result<Result<Option<Trailers>, ErrorCode>, ()>> {
+                pub fn get(
+                    &self,
+                ) -> Option<Result<Result<Option<Trailers>, ErrorCode>, ()>> {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 56]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 56]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 56],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -5907,34 +6307,24 @@ pub mod wasi {
                                                 match l3 {
                                                     0 => {
                                                         let e = {
-                                                            let l4 = i32::from(
-                                                                *ptr0.add(24).cast::<u8>(),
-                                                            );
+                                                            let l4 = i32::from(*ptr0.add(24).cast::<u8>());
                                                             match l4 {
                                                                 0 => None,
                                                                 1 => {
                                                                     let e = {
-                                                                        let l5 = *ptr0
-                                                                            .add(28)
-                                                                            .cast::<i32>();
-                                                                        Fields::from_handle(
-                                                                            l5 as u32,
-                                                                        )
+                                                                        let l5 = *ptr0.add(28).cast::<i32>();
+                                                                        Fields::from_handle(l5 as u32)
                                                                     };
                                                                     Some(e)
                                                                 }
-                                                                _ => {
-                                                                    _rt::invalid_enum_discriminant()
-                                                                }
+                                                                _ => _rt::invalid_enum_discriminant(),
                                                             }
                                                         };
                                                         Ok(e)
                                                     }
                                                     1 => {
                                                         let e = {
-                                                            let l6 = i32::from(
-                                                                *ptr0.add(24).cast::<u8>(),
-                                                            );
+                                                            let l6 = i32::from(*ptr0.add(24).cast::<u8>());
                                                             let v68 = match l6 {
                                                                 0 => ErrorCode::DnsTimeout,
                                                                 1 => {
@@ -6437,7 +6827,10 @@ pub mod wasi {
             }
             impl OutgoingResponse {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn set_status_code(&self, status_code: StatusCode) -> Result<(), ()> {
+                pub fn set_status_code(
+                    &self,
+                    status_code: StatusCode,
+                ) -> Result<(), ()> {
                     unsafe {
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -6449,7 +6842,10 @@ pub mod wasi {
                         fn wit_import(_: i32, _: i32) -> i32 {
                             unreachable!()
                         }
-                        let ret = wit_import((self).handle() as i32, _rt::as_i32(status_code));
+                        let ret = wit_import(
+                            (self).handle() as i32,
+                            _rt::as_i32(status_code),
+                        );
                         match ret {
                             0 => {
                                 let e = ();
@@ -6489,7 +6885,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -6526,7 +6924,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -6568,7 +6968,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 40]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 40]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 40],
+                        );
                         let (result0_0, result0_1) = match &trailers {
                             Some(e) => (1i32, (e).take_handle() as i32),
                             None => (0i32, 0i32),
@@ -6584,7 +6986,12 @@ pub mod wasi {
                         fn wit_import(_: i32, _: i32, _: i32, _: *mut u8) {
                             unreachable!()
                         }
-                        wit_import((&this).take_handle() as i32, result0_0, result0_1, ptr1);
+                        wit_import(
+                            (&this).take_handle() as i32,
+                            result0_0,
+                            result0_1,
+                            ptr1,
+                        );
                         let l2 = i32::from(*ptr1.add(0).cast::<u8>());
                         match l2 {
                             0 => {
@@ -6605,17 +7012,14 @@ pub mod wasi {
                                                         0 => None,
                                                         1 => {
                                                             let e = {
-                                                                let l5 =
-                                                                    *ptr1.add(20).cast::<*mut u8>();
-                                                                let l6 =
-                                                                    *ptr1.add(24).cast::<usize>();
+                                                                let l5 = *ptr1.add(20).cast::<*mut u8>();
+                                                                let l6 = *ptr1.add(24).cast::<usize>();
                                                                 let len7 = l6;
-                                                                let bytes7 =
-                                                                    _rt::Vec::from_raw_parts(
-                                                                        l5.cast(),
-                                                                        len7,
-                                                                        len7,
-                                                                    );
+                                                                let bytes7 = _rt::Vec::from_raw_parts(
+                                                                    l5.cast(),
+                                                                    len7,
+                                                                    len7,
+                                                                );
                                                                 _rt::string_lift(bytes7)
                                                             };
                                                             Some(e)
@@ -6626,9 +7030,7 @@ pub mod wasi {
                                                         0 => None,
                                                         1 => {
                                                             let e = {
-                                                                let l9 = i32::from(
-                                                                    *ptr1.add(30).cast::<u16>(),
-                                                                );
+                                                                let l9 = i32::from(*ptr1.add(30).cast::<u16>());
                                                                 l9 as u16
                                                             };
                                                             Some(e)
@@ -6660,9 +7062,7 @@ pub mod wasi {
                                                         0 => None,
                                                         1 => {
                                                             let e = {
-                                                                let l11 = i32::from(
-                                                                    *ptr1.add(17).cast::<u8>(),
-                                                                );
+                                                                let l11 = i32::from(*ptr1.add(17).cast::<u8>());
                                                                 l11 as u8
                                                             };
                                                             Some(e)
@@ -6673,17 +7073,14 @@ pub mod wasi {
                                                         0 => None,
                                                         1 => {
                                                             let e = {
-                                                                let l13 =
-                                                                    *ptr1.add(24).cast::<*mut u8>();
-                                                                let l14 =
-                                                                    *ptr1.add(28).cast::<usize>();
+                                                                let l13 = *ptr1.add(24).cast::<*mut u8>();
+                                                                let l14 = *ptr1.add(28).cast::<usize>();
                                                                 let len15 = l14;
-                                                                let bytes15 =
-                                                                    _rt::Vec::from_raw_parts(
-                                                                        l13.cast(),
-                                                                        len15,
-                                                                        len15,
-                                                                    );
+                                                                let bytes15 = _rt::Vec::from_raw_parts(
+                                                                    l13.cast(),
+                                                                    len15,
+                                                                    len15,
+                                                                );
                                                                 _rt::string_lift(bytes15)
                                                             };
                                                             Some(e)
@@ -6740,12 +7137,8 @@ pub mod wasi {
                                                     0 => None,
                                                     1 => {
                                                         let e = {
-                                                            let l21 = i32::from(
-                                                                *ptr1.add(20).cast::<u8>(),
-                                                            );
-                                                            let l25 = i32::from(
-                                                                *ptr1.add(32).cast::<u8>(),
-                                                            );
+                                                            let l21 = i32::from(*ptr1.add(20).cast::<u8>());
+                                                            let l25 = i32::from(*ptr1.add(32).cast::<u8>());
                                                             FieldSizePayload {
                                                                 field_name: match l21 {
                                                                     0 => None,
@@ -6811,17 +7204,14 @@ pub mod wasi {
                                                         0 => None,
                                                         1 => {
                                                             let e = {
-                                                                let l30 =
-                                                                    *ptr1.add(20).cast::<*mut u8>();
-                                                                let l31 =
-                                                                    *ptr1.add(24).cast::<usize>();
+                                                                let l30 = *ptr1.add(20).cast::<*mut u8>();
+                                                                let l31 = *ptr1.add(24).cast::<usize>();
                                                                 let len32 = l31;
-                                                                let bytes32 =
-                                                                    _rt::Vec::from_raw_parts(
-                                                                        l30.cast(),
-                                                                        len32,
-                                                                        len32,
-                                                                    );
+                                                                let bytes32 = _rt::Vec::from_raw_parts(
+                                                                    l30.cast(),
+                                                                    len32,
+                                                                    len32,
+                                                                );
                                                                 _rt::string_lift(bytes32)
                                                             };
                                                             Some(e)
@@ -6832,8 +7222,7 @@ pub mod wasi {
                                                         0 => None,
                                                         1 => {
                                                             let e = {
-                                                                let l34 =
-                                                                    *ptr1.add(32).cast::<i32>();
+                                                                let l34 = *ptr1.add(32).cast::<i32>();
                                                                 l34 as u32
                                                             };
                                                             Some(e)
@@ -6871,17 +7260,14 @@ pub mod wasi {
                                                         0 => None,
                                                         1 => {
                                                             let e = {
-                                                                let l38 =
-                                                                    *ptr1.add(20).cast::<*mut u8>();
-                                                                let l39 =
-                                                                    *ptr1.add(24).cast::<usize>();
+                                                                let l38 = *ptr1.add(20).cast::<*mut u8>();
+                                                                let l39 = *ptr1.add(24).cast::<usize>();
                                                                 let len40 = l39;
-                                                                let bytes40 =
-                                                                    _rt::Vec::from_raw_parts(
-                                                                        l38.cast(),
-                                                                        len40,
-                                                                        len40,
-                                                                    );
+                                                                let bytes40 = _rt::Vec::from_raw_parts(
+                                                                    l38.cast(),
+                                                                    len40,
+                                                                    len40,
+                                                                );
                                                                 _rt::string_lift(bytes40)
                                                             };
                                                             Some(e)
@@ -6892,8 +7278,7 @@ pub mod wasi {
                                                         0 => None,
                                                         1 => {
                                                             let e = {
-                                                                let l42 =
-                                                                    *ptr1.add(32).cast::<i32>();
+                                                                let l42 = *ptr1.add(32).cast::<i32>();
                                                                 l42 as u32
                                                             };
                                                             Some(e)
@@ -6947,17 +7332,14 @@ pub mod wasi {
                                                         0 => None,
                                                         1 => {
                                                             let e = {
-                                                                let l48 =
-                                                                    *ptr1.add(20).cast::<*mut u8>();
-                                                                let l49 =
-                                                                    *ptr1.add(24).cast::<usize>();
+                                                                let l48 = *ptr1.add(20).cast::<*mut u8>();
+                                                                let l49 = *ptr1.add(24).cast::<usize>();
                                                                 let len50 = l49;
-                                                                let bytes50 =
-                                                                    _rt::Vec::from_raw_parts(
-                                                                        l48.cast(),
-                                                                        len50,
-                                                                        len50,
-                                                                    );
+                                                                let bytes50 = _rt::Vec::from_raw_parts(
+                                                                    l48.cast(),
+                                                                    len50,
+                                                                    len50,
+                                                                );
                                                                 _rt::string_lift(bytes50)
                                                             };
                                                             Some(e)
@@ -6968,8 +7350,7 @@ pub mod wasi {
                                                         0 => None,
                                                         1 => {
                                                             let e = {
-                                                                let l52 =
-                                                                    *ptr1.add(32).cast::<i32>();
+                                                                let l52 = *ptr1.add(32).cast::<i32>();
                                                                 l52 as u32
                                                             };
                                                             Some(e)
@@ -6987,8 +7368,7 @@ pub mod wasi {
                                                     0 => None,
                                                     1 => {
                                                         let e = {
-                                                            let l54 =
-                                                                *ptr1.add(20).cast::<*mut u8>();
+                                                            let l54 = *ptr1.add(20).cast::<*mut u8>();
                                                             let l55 = *ptr1.add(24).cast::<usize>();
                                                             let len56 = l55;
                                                             let bytes56 = _rt::Vec::from_raw_parts(
@@ -7012,8 +7392,7 @@ pub mod wasi {
                                                     0 => None,
                                                     1 => {
                                                         let e = {
-                                                            let l58 =
-                                                                *ptr1.add(20).cast::<*mut u8>();
+                                                            let l58 = *ptr1.add(20).cast::<*mut u8>();
                                                             let l59 = *ptr1.add(24).cast::<usize>();
                                                             let len60 = l59;
                                                             let bytes60 = _rt::Vec::from_raw_parts(
@@ -7043,8 +7422,7 @@ pub mod wasi {
                                                     0 => None,
                                                     1 => {
                                                         let e = {
-                                                            let l62 =
-                                                                *ptr1.add(20).cast::<*mut u8>();
+                                                            let l62 = *ptr1.add(20).cast::<*mut u8>();
                                                             let l63 = *ptr1.add(24).cast::<usize>();
                                                             let len64 = l63;
                                                             let bytes64 = _rt::Vec::from_raw_parts(
@@ -7086,17 +7464,23 @@ pub mod wasi {
                             unreachable!()
                         }
                         let ret = wit_import((self).handle() as i32);
-                        super::super::super::wasi::io::poll::Pollable::from_handle(ret as u32)
+                        super::super::super::wasi::io::poll::Pollable::from_handle(
+                            ret as u32,
+                        )
                     }
                 }
             }
             impl FutureIncomingResponse {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn get(&self) -> Option<Result<Result<IncomingResponse, ErrorCode>, ()>> {
+                pub fn get(
+                    &self,
+                ) -> Option<Result<Result<IncomingResponse, ErrorCode>, ()>> {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 56]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 56]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 56],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:http/types@0.2.0")]
@@ -7129,9 +7513,7 @@ pub mod wasi {
                                                     }
                                                     1 => {
                                                         let e = {
-                                                            let l5 = i32::from(
-                                                                *ptr0.add(24).cast::<u8>(),
-                                                            );
+                                                            let l5 = i32::from(*ptr0.add(24).cast::<u8>());
                                                             let v67 = match l5 {
                                                                 0 => ErrorCode::DnsTimeout,
                                                                 1 => {
@@ -7629,8 +8011,7 @@ pub mod wasi {
                                                     0 => None,
                                                     1 => {
                                                         let e = {
-                                                            let l4 =
-                                                                *ptr0.add(20).cast::<*mut u8>();
+                                                            let l4 = *ptr0.add(20).cast::<*mut u8>();
                                                             let l5 = *ptr0.add(24).cast::<usize>();
                                                             let len6 = l5;
                                                             let bytes6 = _rt::Vec::from_raw_parts(
@@ -7648,9 +8029,7 @@ pub mod wasi {
                                                     0 => None,
                                                     1 => {
                                                         let e = {
-                                                            let l8 = i32::from(
-                                                                *ptr0.add(30).cast::<u16>(),
-                                                            );
+                                                            let l8 = i32::from(*ptr0.add(30).cast::<u16>());
                                                             l8 as u16
                                                         };
                                                         Some(e)
@@ -7682,9 +8061,7 @@ pub mod wasi {
                                                     0 => None,
                                                     1 => {
                                                         let e = {
-                                                            let l10 = i32::from(
-                                                                *ptr0.add(17).cast::<u8>(),
-                                                            );
+                                                            let l10 = i32::from(*ptr0.add(17).cast::<u8>());
                                                             l10 as u8
                                                         };
                                                         Some(e)
@@ -7695,8 +8072,7 @@ pub mod wasi {
                                                     0 => None,
                                                     1 => {
                                                         let e = {
-                                                            let l12 =
-                                                                *ptr0.add(24).cast::<*mut u8>();
+                                                            let l12 = *ptr0.add(24).cast::<*mut u8>();
                                                             let l13 = *ptr0.add(28).cast::<usize>();
                                                             let len14 = l13;
                                                             let bytes14 = _rt::Vec::from_raw_parts(
@@ -7760,22 +8136,15 @@ pub mod wasi {
                                                 0 => None,
                                                 1 => {
                                                     let e = {
-                                                        let l20 =
-                                                            i32::from(*ptr0.add(20).cast::<u8>());
-                                                        let l24 =
-                                                            i32::from(*ptr0.add(32).cast::<u8>());
+                                                        let l20 = i32::from(*ptr0.add(20).cast::<u8>());
+                                                        let l24 = i32::from(*ptr0.add(32).cast::<u8>());
                                                         FieldSizePayload {
                                                             field_name: match l20 {
                                                                 0 => None,
                                                                 1 => {
                                                                     let e = {
-                                                                        let l21 = *ptr0
-                                                                            .add(24)
-                                                                            .cast::<*mut u8>(
-                                                                        );
-                                                                        let l22 = *ptr0
-                                                                            .add(28)
-                                                                            .cast::<usize>();
+                                                                        let l21 = *ptr0.add(24).cast::<*mut u8>();
+                                                                        let l22 = *ptr0.add(28).cast::<usize>();
                                                                         let len23 = l22;
                                                                         let bytes23 = _rt::Vec::from_raw_parts(
                                                                             l21.cast(),
@@ -7786,24 +8155,18 @@ pub mod wasi {
                                                                     };
                                                                     Some(e)
                                                                 }
-                                                                _ => {
-                                                                    _rt::invalid_enum_discriminant()
-                                                                }
+                                                                _ => _rt::invalid_enum_discriminant(),
                                                             },
                                                             field_size: match l24 {
                                                                 0 => None,
                                                                 1 => {
                                                                     let e = {
-                                                                        let l25 = *ptr0
-                                                                            .add(36)
-                                                                            .cast::<i32>();
+                                                                        let l25 = *ptr0.add(36).cast::<i32>();
                                                                         l25 as u32
                                                                     };
                                                                     Some(e)
                                                                 }
-                                                                _ => {
-                                                                    _rt::invalid_enum_discriminant()
-                                                                }
+                                                                _ => _rt::invalid_enum_discriminant(),
                                                             },
                                                         }
                                                     };
@@ -7840,8 +8203,7 @@ pub mod wasi {
                                                     0 => None,
                                                     1 => {
                                                         let e = {
-                                                            let l29 =
-                                                                *ptr0.add(20).cast::<*mut u8>();
+                                                            let l29 = *ptr0.add(20).cast::<*mut u8>();
                                                             let l30 = *ptr0.add(24).cast::<usize>();
                                                             let len31 = l30;
                                                             let bytes31 = _rt::Vec::from_raw_parts(
@@ -7897,8 +8259,7 @@ pub mod wasi {
                                                     0 => None,
                                                     1 => {
                                                         let e = {
-                                                            let l37 =
-                                                                *ptr0.add(20).cast::<*mut u8>();
+                                                            let l37 = *ptr0.add(20).cast::<*mut u8>();
                                                             let l38 = *ptr0.add(24).cast::<usize>();
                                                             let len39 = l38;
                                                             let bytes39 = _rt::Vec::from_raw_parts(
@@ -7970,8 +8331,7 @@ pub mod wasi {
                                                     0 => None,
                                                     1 => {
                                                         let e = {
-                                                            let l47 =
-                                                                *ptr0.add(20).cast::<*mut u8>();
+                                                            let l47 = *ptr0.add(20).cast::<*mut u8>();
                                                             let l48 = *ptr0.add(24).cast::<usize>();
                                                             let len49 = l48;
                                                             let bytes49 = _rt::Vec::from_raw_parts(
@@ -8092,13 +8452,11 @@ pub mod wasi {
         pub mod outgoing_handler {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             pub type OutgoingRequest = super::super::super::wasi::http::types::OutgoingRequest;
             pub type RequestOptions = super::super::super::wasi::http::types::RequestOptions;
-            pub type FutureIncomingResponse =
-                super::super::super::wasi::http::types::FutureIncomingResponse;
+            pub type FutureIncomingResponse = super::super::super::wasi::http::types::FutureIncomingResponse;
             pub type ErrorCode = super::super::super::wasi::http::types::ErrorCode;
             #[allow(unused_unsafe, clippy::all)]
             pub fn handle(
@@ -8124,7 +8482,12 @@ pub mod wasi {
                     fn wit_import(_: i32, _: i32, _: i32, _: *mut u8) {
                         unreachable!()
                     }
-                    wit_import((&request).take_handle() as i32, result0_0, result0_1, ptr1);
+                    wit_import(
+                        (&request).take_handle() as i32,
+                        result0_0,
+                        result0_1,
+                        ptr1,
+                    );
                     let l2 = i32::from(*ptr1.add(0).cast::<u8>());
                     match l2 {
                         0 => {
@@ -8276,10 +8639,8 @@ pub mod wasi {
                                                 0 => None,
                                                 1 => {
                                                     let e = {
-                                                        let l22 =
-                                                            i32::from(*ptr1.add(20).cast::<u8>());
-                                                        let l26 =
-                                                            i32::from(*ptr1.add(32).cast::<u8>());
+                                                        let l22 = i32::from(*ptr1.add(20).cast::<u8>());
+                                                        let l26 = i32::from(*ptr1.add(32).cast::<u8>());
                                                         super::super::super::wasi::http::types::FieldSizePayload {
                                                             field_name: match l22 {
                                                                 0 => None,
@@ -8597,8 +8958,7 @@ pub mod wasi {
         pub mod poll {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             #[derive(Debug)]
             #[repr(transparent)]
@@ -8608,7 +8968,9 @@ pub mod wasi {
             impl Pollable {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -8680,7 +9042,10 @@ pub mod wasi {
                     let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
                     let vec0 = in_;
                     let len0 = vec0.len();
-                    let layout0 = _rt::alloc::Layout::from_size_align_unchecked(vec0.len() * 4, 4);
+                    let layout0 = _rt::alloc::Layout::from_size_align_unchecked(
+                        vec0.len() * 4,
+                        4,
+                    );
                     let result0 = if layout0.size() != 0 {
                         let ptr = _rt::alloc::alloc(layout0).cast::<u8>();
                         if ptr.is_null() {
@@ -8722,8 +9087,7 @@ pub mod wasi {
         pub mod error {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             #[derive(Debug)]
             #[repr(transparent)]
@@ -8733,7 +9097,9 @@ pub mod wasi {
             impl Error {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -8766,7 +9132,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:io/error@0.2.0")]
@@ -8792,8 +9160,7 @@ pub mod wasi {
         pub mod streams {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             pub type Error = super::super::super::wasi::io::error::Error;
             pub type Pollable = super::super::super::wasi::io::poll::Pollable;
@@ -8802,17 +9169,27 @@ pub mod wasi {
                 Closed,
             }
             impl ::core::fmt::Debug for StreamError {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
                         StreamError::LastOperationFailed(e) => {
-                            f.debug_tuple("StreamError::LastOperationFailed").field(e).finish()
+                            f.debug_tuple("StreamError::LastOperationFailed")
+                                .field(e)
+                                .finish()
                         }
-                        StreamError::Closed => f.debug_tuple("StreamError::Closed").finish(),
+                        StreamError::Closed => {
+                            f.debug_tuple("StreamError::Closed").finish()
+                        }
                     }
                 }
             }
             impl ::core::fmt::Display for StreamError {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     write!(f, "{:?}", self)
                 }
             }
@@ -8825,7 +9202,9 @@ pub mod wasi {
             impl InputStream {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -8860,7 +9239,9 @@ pub mod wasi {
             impl OutputStream {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -8893,7 +9274,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:io/streams@0.2.0")]
@@ -8946,11 +9329,16 @@ pub mod wasi {
             }
             impl InputStream {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn blocking_read(&self, len: u64) -> Result<_rt::Vec<u8>, StreamError> {
+                pub fn blocking_read(
+                    &self,
+                    len: u64,
+                ) -> Result<_rt::Vec<u8>, StreamError> {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:io/streams@0.2.0")]
@@ -9007,7 +9395,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:io/streams@0.2.0")]
@@ -9062,7 +9452,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:io/streams@0.2.0")]
@@ -9126,7 +9518,9 @@ pub mod wasi {
                             unreachable!()
                         }
                         let ret = wit_import((self).handle() as i32);
-                        super::super::super::wasi::io::poll::Pollable::from_handle(ret as u32)
+                        super::super::super::wasi::io::poll::Pollable::from_handle(
+                            ret as u32,
+                        )
                     }
                 }
             }
@@ -9136,7 +9530,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:io/streams@0.2.0")]
@@ -9191,7 +9587,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let vec0 = contents;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
@@ -9242,11 +9640,16 @@ pub mod wasi {
             }
             impl OutputStream {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn blocking_write_and_flush(&self, contents: &[u8]) -> Result<(), StreamError> {
+                pub fn blocking_write_and_flush(
+                    &self,
+                    contents: &[u8],
+                ) -> Result<(), StreamError> {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let vec0 = contents;
                         let ptr0 = vec0.as_ptr().cast::<u8>();
                         let len0 = vec0.len();
@@ -9301,7 +9704,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:io/streams@0.2.0")]
@@ -9353,7 +9758,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:io/streams@0.2.0")]
@@ -9414,7 +9821,9 @@ pub mod wasi {
                             unreachable!()
                         }
                         let ret = wit_import((self).handle() as i32);
-                        super::super::super::wasi::io::poll::Pollable::from_handle(ret as u32)
+                        super::super::super::wasi::io::poll::Pollable::from_handle(
+                            ret as u32,
+                        )
                     }
                 }
             }
@@ -9424,7 +9833,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:io/streams@0.2.0")]
@@ -9472,11 +9883,16 @@ pub mod wasi {
             }
             impl OutputStream {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn blocking_write_zeroes_and_flush(&self, len: u64) -> Result<(), StreamError> {
+                pub fn blocking_write_zeroes_and_flush(
+                    &self,
+                    len: u64,
+                ) -> Result<(), StreamError> {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:io/streams@0.2.0")]
@@ -9524,11 +9940,17 @@ pub mod wasi {
             }
             impl OutputStream {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn splice(&self, src: &InputStream, len: u64) -> Result<u64, StreamError> {
+                pub fn splice(
+                    &self,
+                    src: &InputStream,
+                    len: u64,
+                ) -> Result<u64, StreamError> {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:io/streams@0.2.0")]
@@ -9592,7 +10014,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:io/streams@0.2.0")]
@@ -9654,8 +10078,7 @@ pub mod wasi {
         pub mod random {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             #[allow(unused_unsafe, clippy::all)]
             pub fn get_random_bytes(len: u64) -> _rt::Vec<u8> {
@@ -9703,8 +10126,7 @@ pub mod wasi {
         pub mod insecure {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             #[allow(unused_unsafe, clippy::all)]
             pub fn get_insecure_random_bytes(len: u64) -> _rt::Vec<u8> {
@@ -9752,8 +10174,7 @@ pub mod wasi {
         pub mod insecure_seed {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             #[allow(unused_unsafe, clippy::all)]
             pub fn insecure_seed() -> (u64, u64) {
                 unsafe {
@@ -9785,8 +10206,7 @@ pub mod wasi {
         pub mod network {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             #[derive(Debug)]
             #[repr(transparent)]
@@ -9796,7 +10216,9 @@ pub mod wasi {
             impl Network {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -9870,8 +10292,12 @@ pub mod wasi {
                         ErrorCode::ConnectionAborted => "connection-aborted",
                         ErrorCode::DatagramTooLarge => "datagram-too-large",
                         ErrorCode::NameUnresolvable => "name-unresolvable",
-                        ErrorCode::TemporaryResolverFailure => "temporary-resolver-failure",
-                        ErrorCode::PermanentResolverFailure => "permanent-resolver-failure",
+                        ErrorCode::TemporaryResolverFailure => {
+                            "temporary-resolver-failure"
+                        }
+                        ErrorCode::PermanentResolverFailure => {
+                            "permanent-resolver-failure"
+                        }
                     }
                 }
                 pub fn message(&self) -> &'static str {
@@ -9901,7 +10327,10 @@ pub mod wasi {
                 }
             }
             impl ::core::fmt::Debug for ErrorCode {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("ErrorCode")
                         .field("code", &(*self as i32))
                         .field("name", &self.name())
@@ -9910,8 +10339,11 @@ pub mod wasi {
                 }
             }
             impl ::core::fmt::Display for ErrorCode {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-                    write!(f, "{} (error {})", self.name(), *self as i32)
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
+                    write!(f, "{} (error {})", self.name(), * self as i32)
                 }
             }
             impl std::error::Error for ErrorCode {}
@@ -9954,10 +10386,17 @@ pub mod wasi {
                 Ipv6,
             }
             impl ::core::fmt::Debug for IpAddressFamily {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
-                        IpAddressFamily::Ipv4 => f.debug_tuple("IpAddressFamily::Ipv4").finish(),
-                        IpAddressFamily::Ipv6 => f.debug_tuple("IpAddressFamily::Ipv6").finish(),
+                        IpAddressFamily::Ipv4 => {
+                            f.debug_tuple("IpAddressFamily::Ipv4").finish()
+                        }
+                        IpAddressFamily::Ipv6 => {
+                            f.debug_tuple("IpAddressFamily::Ipv6").finish()
+                        }
                     }
                 }
             }
@@ -9982,10 +10421,17 @@ pub mod wasi {
                 Ipv6(Ipv6Address),
             }
             impl ::core::fmt::Debug for IpAddress {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
-                        IpAddress::Ipv4(e) => f.debug_tuple("IpAddress::Ipv4").field(e).finish(),
-                        IpAddress::Ipv6(e) => f.debug_tuple("IpAddress::Ipv6").field(e).finish(),
+                        IpAddress::Ipv4(e) => {
+                            f.debug_tuple("IpAddress::Ipv4").field(e).finish()
+                        }
+                        IpAddress::Ipv6(e) => {
+                            f.debug_tuple("IpAddress::Ipv6").field(e).finish()
+                        }
                     }
                 }
             }
@@ -9996,7 +10442,10 @@ pub mod wasi {
                 pub address: Ipv4Address,
             }
             impl ::core::fmt::Debug for Ipv4SocketAddress {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("Ipv4SocketAddress")
                         .field("port", &self.port)
                         .field("address", &self.address)
@@ -10012,7 +10461,10 @@ pub mod wasi {
                 pub scope_id: u32,
             }
             impl ::core::fmt::Debug for Ipv6SocketAddress {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("Ipv6SocketAddress")
                         .field("port", &self.port)
                         .field("flow-info", &self.flow_info)
@@ -10027,7 +10479,10 @@ pub mod wasi {
                 Ipv6(Ipv6SocketAddress),
             }
             impl ::core::fmt::Debug for IpSocketAddress {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
                         IpSocketAddress::Ipv4(e) => {
                             f.debug_tuple("IpSocketAddress::Ipv4").field(e).finish()
@@ -10043,8 +10498,7 @@ pub mod wasi {
         pub mod instance_network {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             pub type Network = super::super::super::wasi::sockets::network::Network;
             #[allow(unused_unsafe, clippy::all)]
             pub fn instance_network() -> Network {
@@ -10060,7 +10514,9 @@ pub mod wasi {
                         unreachable!()
                     }
                     let ret = wit_import();
-                    super::super::super::wasi::sockets::network::Network::from_handle(ret as u32)
+                    super::super::super::wasi::sockets::network::Network::from_handle(
+                        ret as u32,
+                    )
                 }
             }
         }
@@ -10068,8 +10524,7 @@ pub mod wasi {
         pub mod udp {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             pub type Pollable = super::super::super::wasi::io::poll::Pollable;
             pub type Network = super::super::super::wasi::sockets::network::Network;
@@ -10082,7 +10537,10 @@ pub mod wasi {
                 pub remote_address: IpSocketAddress,
             }
             impl ::core::fmt::Debug for IncomingDatagram {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("IncomingDatagram")
                         .field("data", &self.data)
                         .field("remote-address", &self.remote_address)
@@ -10095,7 +10553,10 @@ pub mod wasi {
                 pub remote_address: Option<IpSocketAddress>,
             }
             impl ::core::fmt::Debug for OutgoingDatagram {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("OutgoingDatagram")
                         .field("data", &self.data)
                         .field("remote-address", &self.remote_address)
@@ -10110,7 +10571,9 @@ pub mod wasi {
             impl UdpSocket {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -10145,7 +10608,9 @@ pub mod wasi {
             impl IncomingDatagramStream {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -10180,7 +10645,9 @@ pub mod wasi {
             impl OutgoingDatagramStream {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -10217,7 +10684,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         use super::super::super::wasi::sockets::network::IpSocketAddress as V4;
                         let (
                             result5_0,
@@ -10364,7 +10833,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/udp@0.2.0")]
@@ -10402,12 +10873,16 @@ pub mod wasi {
                 pub fn stream(
                     &self,
                     remote_address: Option<IpSocketAddress>,
-                ) -> Result<(IncomingDatagramStream, OutgoingDatagramStream), ErrorCode>
-                {
+                ) -> Result<
+                    (IncomingDatagramStream, OutgoingDatagramStream),
+                    ErrorCode,
+                > {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let (
                             result6_0,
                             result6_1,
@@ -10467,8 +10942,7 @@ pub mod wasi {
                                             address: address2,
                                             scope_id: scope_id2,
                                         } = e;
-                                        let (t3_0, t3_1, t3_2, t3_3, t3_4, t3_5, t3_6, t3_7) =
-                                            address2;
+                                        let (t3_0, t3_1, t3_2, t3_3, t3_4, t3_5, t3_6, t3_7) = address2;
                                         (
                                             1i32,
                                             _rt::as_i32(port2),
@@ -10486,15 +10960,38 @@ pub mod wasi {
                                     }
                                 };
                                 (
-                                    1i32, result5_0, result5_1, result5_2, result5_3, result5_4,
-                                    result5_5, result5_6, result5_7, result5_8, result5_9,
-                                    result5_10, result5_11,
+                                    1i32,
+                                    result5_0,
+                                    result5_1,
+                                    result5_2,
+                                    result5_3,
+                                    result5_4,
+                                    result5_5,
+                                    result5_6,
+                                    result5_7,
+                                    result5_8,
+                                    result5_9,
+                                    result5_10,
+                                    result5_11,
                                 )
                             }
-                            None => (
-                                0i32, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32, 0i32,
-                                0i32, 0i32,
-                            ),
+                            None => {
+                                (
+                                    0i32,
+                                    0i32,
+                                    0i32,
+                                    0i32,
+                                    0i32,
+                                    0i32,
+                                    0i32,
+                                    0i32,
+                                    0i32,
+                                    0i32,
+                                    0i32,
+                                    0i32,
+                                    0i32,
+                                )
+                            }
                         };
                         let ptr7 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
@@ -10589,7 +11086,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 36]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 36]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 36],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/udp@0.2.0")]
@@ -10680,7 +11179,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 36]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 36]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 36],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/udp@0.2.0")]
@@ -10792,7 +11293,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/udp@0.2.0")]
@@ -10834,7 +11337,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/udp@0.2.0")]
@@ -10873,7 +11378,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/udp@0.2.0")]
@@ -10911,11 +11418,16 @@ pub mod wasi {
             }
             impl UdpSocket {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn set_receive_buffer_size(&self, value: u64) -> Result<(), ErrorCode> {
+                pub fn set_receive_buffer_size(
+                    &self,
+                    value: u64,
+                ) -> Result<(), ErrorCode> {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/udp@0.2.0")]
@@ -10954,7 +11466,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/udp@0.2.0")]
@@ -10996,7 +11510,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/udp@0.2.0")]
@@ -11044,7 +11560,9 @@ pub mod wasi {
                             unreachable!()
                         }
                         let ret = wit_import((self).handle() as i32);
-                        super::super::super::wasi::io::poll::Pollable::from_handle(ret as u32)
+                        super::super::super::wasi::io::poll::Pollable::from_handle(
+                            ret as u32,
+                        )
                     }
                 }
             }
@@ -11057,7 +11575,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/udp@0.2.0")]
@@ -11069,7 +11589,11 @@ pub mod wasi {
                         fn wit_import(_: i32, _: i64, _: *mut u8) {
                             unreachable!()
                         }
-                        wit_import((self).handle() as i32, _rt::as_i64(&max_results), ptr0);
+                        wit_import(
+                            (self).handle() as i32,
+                            _rt::as_i64(&max_results),
+                            ptr0,
+                        );
                         let l1 = i32::from(*ptr0.add(0).cast::<u8>());
                         match l1 {
                             0 => {
@@ -11090,16 +11614,11 @@ pub mod wasi {
                                             let v24 = match l7 {
                                                 0 => {
                                                     let e24 = {
-                                                        let l8 =
-                                                            i32::from(*base.add(12).cast::<u16>());
-                                                        let l9 =
-                                                            i32::from(*base.add(14).cast::<u8>());
-                                                        let l10 =
-                                                            i32::from(*base.add(15).cast::<u8>());
-                                                        let l11 =
-                                                            i32::from(*base.add(16).cast::<u8>());
-                                                        let l12 =
-                                                            i32::from(*base.add(17).cast::<u8>());
+                                                        let l8 = i32::from(*base.add(12).cast::<u16>());
+                                                        let l9 = i32::from(*base.add(14).cast::<u8>());
+                                                        let l10 = i32::from(*base.add(15).cast::<u8>());
+                                                        let l11 = i32::from(*base.add(16).cast::<u8>());
+                                                        let l12 = i32::from(*base.add(17).cast::<u8>());
                                                         super::super::super::wasi::sockets::network::Ipv4SocketAddress {
                                                             port: l8 as u16,
                                                             address: (l9 as u8, l10 as u8, l11 as u8, l12 as u8),
@@ -11108,30 +11627,18 @@ pub mod wasi {
                                                     V24::Ipv4(e24)
                                                 }
                                                 n => {
-                                                    debug_assert_eq!(
-                                                        n, 1,
-                                                        "invalid enum discriminant"
-                                                    );
+                                                    debug_assert_eq!(n, 1, "invalid enum discriminant");
                                                     let e24 = {
-                                                        let l13 =
-                                                            i32::from(*base.add(12).cast::<u16>());
+                                                        let l13 = i32::from(*base.add(12).cast::<u16>());
                                                         let l14 = *base.add(16).cast::<i32>();
-                                                        let l15 =
-                                                            i32::from(*base.add(20).cast::<u16>());
-                                                        let l16 =
-                                                            i32::from(*base.add(22).cast::<u16>());
-                                                        let l17 =
-                                                            i32::from(*base.add(24).cast::<u16>());
-                                                        let l18 =
-                                                            i32::from(*base.add(26).cast::<u16>());
-                                                        let l19 =
-                                                            i32::from(*base.add(28).cast::<u16>());
-                                                        let l20 =
-                                                            i32::from(*base.add(30).cast::<u16>());
-                                                        let l21 =
-                                                            i32::from(*base.add(32).cast::<u16>());
-                                                        let l22 =
-                                                            i32::from(*base.add(34).cast::<u16>());
+                                                        let l15 = i32::from(*base.add(20).cast::<u16>());
+                                                        let l16 = i32::from(*base.add(22).cast::<u16>());
+                                                        let l17 = i32::from(*base.add(24).cast::<u16>());
+                                                        let l18 = i32::from(*base.add(26).cast::<u16>());
+                                                        let l19 = i32::from(*base.add(28).cast::<u16>());
+                                                        let l20 = i32::from(*base.add(30).cast::<u16>());
+                                                        let l21 = i32::from(*base.add(32).cast::<u16>());
+                                                        let l22 = i32::from(*base.add(34).cast::<u16>());
                                                         let l23 = *base.add(36).cast::<i32>();
                                                         super::super::super::wasi::sockets::network::Ipv6SocketAddress {
                                                             port: l13 as u16,
@@ -11153,11 +11660,7 @@ pub mod wasi {
                                                 }
                                             };
                                             IncomingDatagram {
-                                                data: _rt::Vec::from_raw_parts(
-                                                    l4.cast(),
-                                                    len6,
-                                                    len6,
-                                                ),
+                                                data: _rt::Vec::from_raw_parts(l4.cast(), len6, len6),
                                                 remote_address: v24,
                                             }
                                         };
@@ -11197,7 +11700,9 @@ pub mod wasi {
                             unreachable!()
                         }
                         let ret = wit_import((self).handle() as i32);
-                        super::super::super::wasi::io::poll::Pollable::from_handle(ret as u32)
+                        super::super::super::wasi::io::poll::Pollable::from_handle(
+                            ret as u32,
+                        )
                     }
                 }
             }
@@ -11207,7 +11712,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/udp@0.2.0")]
@@ -11245,15 +11752,22 @@ pub mod wasi {
             }
             impl OutgoingDatagramStream {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn send(&self, datagrams: &[OutgoingDatagram]) -> Result<u64, ErrorCode> {
+                pub fn send(
+                    &self,
+                    datagrams: &[OutgoingDatagram],
+                ) -> Result<u64, ErrorCode> {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let vec7 = datagrams;
                         let len7 = vec7.len();
-                        let layout7 =
-                            _rt::alloc::Layout::from_size_align_unchecked(vec7.len() * 44, 4);
+                        let layout7 = _rt::alloc::Layout::from_size_align_unchecked(
+                            vec7.len() * 44,
+                            4,
+                        );
                         let result7 = if layout7.size() != 0 {
                             let ptr = _rt::alloc::alloc(layout7).cast::<u8>();
                             if ptr.is_null() {
@@ -11286,17 +11800,12 @@ pub mod wasi {
                                                     port: port2,
                                                     address: address2,
                                                 } = e;
-                                                *base.add(16).cast::<u16>() =
-                                                    (_rt::as_i32(port2)) as u16;
+                                                *base.add(16).cast::<u16>() = (_rt::as_i32(port2)) as u16;
                                                 let (t3_0, t3_1, t3_2, t3_3) = address2;
-                                                *base.add(18).cast::<u8>() =
-                                                    (_rt::as_i32(t3_0)) as u8;
-                                                *base.add(19).cast::<u8>() =
-                                                    (_rt::as_i32(t3_1)) as u8;
-                                                *base.add(20).cast::<u8>() =
-                                                    (_rt::as_i32(t3_2)) as u8;
-                                                *base.add(21).cast::<u8>() =
-                                                    (_rt::as_i32(t3_3)) as u8;
+                                                *base.add(18).cast::<u8>() = (_rt::as_i32(t3_0)) as u8;
+                                                *base.add(19).cast::<u8>() = (_rt::as_i32(t3_1)) as u8;
+                                                *base.add(20).cast::<u8>() = (_rt::as_i32(t3_2)) as u8;
+                                                *base.add(21).cast::<u8>() = (_rt::as_i32(t3_3)) as u8;
                                             }
                                             V6::Ipv6(e) => {
                                                 *base.add(12).cast::<u8>() = (1i32) as u8;
@@ -11306,38 +11815,18 @@ pub mod wasi {
                                                     address: address4,
                                                     scope_id: scope_id4,
                                                 } = e;
-                                                *base.add(16).cast::<u16>() =
-                                                    (_rt::as_i32(port4)) as u16;
-                                                *base.add(20).cast::<i32>() =
-                                                    _rt::as_i32(flow_info4);
-                                                let (
-                                                    t5_0,
-                                                    t5_1,
-                                                    t5_2,
-                                                    t5_3,
-                                                    t5_4,
-                                                    t5_5,
-                                                    t5_6,
-                                                    t5_7,
-                                                ) = address4;
-                                                *base.add(24).cast::<u16>() =
-                                                    (_rt::as_i32(t5_0)) as u16;
-                                                *base.add(26).cast::<u16>() =
-                                                    (_rt::as_i32(t5_1)) as u16;
-                                                *base.add(28).cast::<u16>() =
-                                                    (_rt::as_i32(t5_2)) as u16;
-                                                *base.add(30).cast::<u16>() =
-                                                    (_rt::as_i32(t5_3)) as u16;
-                                                *base.add(32).cast::<u16>() =
-                                                    (_rt::as_i32(t5_4)) as u16;
-                                                *base.add(34).cast::<u16>() =
-                                                    (_rt::as_i32(t5_5)) as u16;
-                                                *base.add(36).cast::<u16>() =
-                                                    (_rt::as_i32(t5_6)) as u16;
-                                                *base.add(38).cast::<u16>() =
-                                                    (_rt::as_i32(t5_7)) as u16;
-                                                *base.add(40).cast::<i32>() =
-                                                    _rt::as_i32(scope_id4);
+                                                *base.add(16).cast::<u16>() = (_rt::as_i32(port4)) as u16;
+                                                *base.add(20).cast::<i32>() = _rt::as_i32(flow_info4);
+                                                let (t5_0, t5_1, t5_2, t5_3, t5_4, t5_5, t5_6, t5_7) = address4;
+                                                *base.add(24).cast::<u16>() = (_rt::as_i32(t5_0)) as u16;
+                                                *base.add(26).cast::<u16>() = (_rt::as_i32(t5_1)) as u16;
+                                                *base.add(28).cast::<u16>() = (_rt::as_i32(t5_2)) as u16;
+                                                *base.add(30).cast::<u16>() = (_rt::as_i32(t5_3)) as u16;
+                                                *base.add(32).cast::<u16>() = (_rt::as_i32(t5_4)) as u16;
+                                                *base.add(34).cast::<u16>() = (_rt::as_i32(t5_5)) as u16;
+                                                *base.add(36).cast::<u16>() = (_rt::as_i32(t5_6)) as u16;
+                                                *base.add(38).cast::<u16>() = (_rt::as_i32(t5_7)) as u16;
+                                                *base.add(40).cast::<i32>() = _rt::as_i32(scope_id4);
                                             }
                                         }
                                     }
@@ -11400,7 +11889,9 @@ pub mod wasi {
                             unreachable!()
                         }
                         let ret = wit_import((self).handle() as i32);
-                        super::super::super::wasi::io::poll::Pollable::from_handle(ret as u32)
+                        super::super::super::wasi::io::poll::Pollable::from_handle(
+                            ret as u32,
+                        )
                     }
                 }
             }
@@ -11409,8 +11900,7 @@ pub mod wasi {
         pub mod udp_create_socket {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             pub type ErrorCode = super::super::super::wasi::sockets::network::ErrorCode;
             pub type IpAddressFamily = super::super::super::wasi::sockets::network::IpAddressFamily;
@@ -11464,8 +11954,7 @@ pub mod wasi {
         pub mod tcp {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             pub type InputStream = super::super::super::wasi::io::streams::InputStream;
             pub type OutputStream = super::super::super::wasi::io::streams::OutputStream;
@@ -11483,11 +11972,20 @@ pub mod wasi {
                 Both,
             }
             impl ::core::fmt::Debug for ShutdownType {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
-                        ShutdownType::Receive => f.debug_tuple("ShutdownType::Receive").finish(),
-                        ShutdownType::Send => f.debug_tuple("ShutdownType::Send").finish(),
-                        ShutdownType::Both => f.debug_tuple("ShutdownType::Both").finish(),
+                        ShutdownType::Receive => {
+                            f.debug_tuple("ShutdownType::Receive").finish()
+                        }
+                        ShutdownType::Send => {
+                            f.debug_tuple("ShutdownType::Send").finish()
+                        }
+                        ShutdownType::Both => {
+                            f.debug_tuple("ShutdownType::Both").finish()
+                        }
                     }
                 }
             }
@@ -11513,7 +12011,9 @@ pub mod wasi {
             impl TcpSocket {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -11550,7 +12050,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         use super::super::super::wasi::sockets::network::IpSocketAddress as V4;
                         let (
                             result5_0,
@@ -11697,7 +12199,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -11740,7 +12244,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         use super::super::super::wasi::sockets::network::IpSocketAddress as V4;
                         let (
                             result5_0,
@@ -11883,11 +12389,15 @@ pub mod wasi {
             }
             impl TcpSocket {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn finish_connect(&self) -> Result<(InputStream, OutputStream), ErrorCode> {
+                pub fn finish_connect(
+                    &self,
+                ) -> Result<(InputStream, OutputStream), ErrorCode> {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 12]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 12]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 12],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -11937,7 +12447,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -11976,7 +12488,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12011,11 +12525,15 @@ pub mod wasi {
             }
             impl TcpSocket {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn accept(&self) -> Result<(TcpSocket, InputStream, OutputStream), ErrorCode> {
+                pub fn accept(
+                    &self,
+                ) -> Result<(TcpSocket, InputStream, OutputStream), ErrorCode> {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12067,7 +12585,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 36]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 36]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 36],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12158,7 +12678,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 36]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 36]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 36],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12285,11 +12807,16 @@ pub mod wasi {
             }
             impl TcpSocket {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn set_listen_backlog_size(&self, value: u64) -> Result<(), ErrorCode> {
+                pub fn set_listen_backlog_size(
+                    &self,
+                    value: u64,
+                ) -> Result<(), ErrorCode> {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12328,7 +12855,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12366,11 +12895,16 @@ pub mod wasi {
             }
             impl TcpSocket {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn set_keep_alive_enabled(&self, value: bool) -> Result<(), ErrorCode> {
+                pub fn set_keep_alive_enabled(
+                    &self,
+                    value: bool,
+                ) -> Result<(), ErrorCode> {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12416,7 +12950,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12454,11 +12990,16 @@ pub mod wasi {
             }
             impl TcpSocket {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn set_keep_alive_idle_time(&self, value: Duration) -> Result<(), ErrorCode> {
+                pub fn set_keep_alive_idle_time(
+                    &self,
+                    value: Duration,
+                ) -> Result<(), ErrorCode> {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12497,7 +13038,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12535,11 +13078,16 @@ pub mod wasi {
             }
             impl TcpSocket {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn set_keep_alive_interval(&self, value: Duration) -> Result<(), ErrorCode> {
+                pub fn set_keep_alive_interval(
+                    &self,
+                    value: Duration,
+                ) -> Result<(), ErrorCode> {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12578,7 +13126,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(4))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 8]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 8]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 8],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12620,7 +13170,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12659,7 +13211,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12701,7 +13255,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12740,7 +13296,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12778,11 +13336,16 @@ pub mod wasi {
             }
             impl TcpSocket {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn set_receive_buffer_size(&self, value: u64) -> Result<(), ErrorCode> {
+                pub fn set_receive_buffer_size(
+                    &self,
+                    value: u64,
+                ) -> Result<(), ErrorCode> {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12821,7 +13384,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(8))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 16]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 16]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 16],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12863,7 +13428,9 @@ pub mod wasi {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12911,17 +13478,24 @@ pub mod wasi {
                             unreachable!()
                         }
                         let ret = wit_import((self).handle() as i32);
-                        super::super::super::wasi::io::poll::Pollable::from_handle(ret as u32)
+                        super::super::super::wasi::io::poll::Pollable::from_handle(
+                            ret as u32,
+                        )
                     }
                 }
             }
             impl TcpSocket {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn shutdown(&self, shutdown_type: ShutdownType) -> Result<(), ErrorCode> {
+                pub fn shutdown(
+                    &self,
+                    shutdown_type: ShutdownType,
+                ) -> Result<(), ErrorCode> {
                     unsafe {
                         #[repr(align(1))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 2]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 2]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 2],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/tcp@0.2.0")]
@@ -12933,7 +13507,11 @@ pub mod wasi {
                         fn wit_import(_: i32, _: i32, _: *mut u8) {
                             unreachable!()
                         }
-                        wit_import((self).handle() as i32, shutdown_type.clone() as i32, ptr0);
+                        wit_import(
+                            (self).handle() as i32,
+                            shutdown_type.clone() as i32,
+                            ptr0,
+                        );
                         let l1 = i32::from(*ptr0.add(0).cast::<u8>());
                         match l1 {
                             0 => {
@@ -12959,8 +13537,7 @@ pub mod wasi {
         pub mod tcp_create_socket {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             pub type ErrorCode = super::super::super::wasi::sockets::network::ErrorCode;
             pub type IpAddressFamily = super::super::super::wasi::sockets::network::IpAddressFamily;
@@ -13014,8 +13591,7 @@ pub mod wasi {
         pub mod ip_name_lookup {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             pub type Pollable = super::super::super::wasi::io::poll::Pollable;
             pub type Network = super::super::super::wasi::sockets::network::Network;
@@ -13029,7 +13605,9 @@ pub mod wasi {
             impl ResolveAddressStream {
                 #[doc(hidden)]
                 pub unsafe fn from_handle(handle: u32) -> Self {
-                    Self { handle: _rt::Resource::from_handle(handle) }
+                    Self {
+                        handle: _rt::Resource::from_handle(handle),
+                    }
                 }
                 #[doc(hidden)]
                 pub fn take_handle(&self) -> u32 {
@@ -13058,11 +13636,15 @@ pub mod wasi {
             }
             impl ResolveAddressStream {
                 #[allow(unused_unsafe, clippy::all)]
-                pub fn resolve_next_address(&self) -> Result<Option<IpAddress>, ErrorCode> {
+                pub fn resolve_next_address(
+                    &self,
+                ) -> Result<Option<IpAddress>, ErrorCode> {
                     unsafe {
                         #[repr(align(2))]
                         struct RetArea([::core::mem::MaybeUninit<u8>; 22]);
-                        let mut ret_area = RetArea([::core::mem::MaybeUninit::uninit(); 22]);
+                        let mut ret_area = RetArea(
+                            [::core::mem::MaybeUninit::uninit(); 22],
+                        );
                         let ptr0 = ret_area.0.as_mut_ptr().cast::<u8>();
                         #[cfg(target_arch = "wasm32")]
                         #[link(wasm_import_module = "wasi:sockets/ip-name-lookup@0.2.0")]
@@ -13089,56 +13671,34 @@ pub mod wasi {
                                                 let v16 = match l3 {
                                                     0 => {
                                                         let e16 = {
-                                                            let l4 = i32::from(
-                                                                *ptr0.add(6).cast::<u8>(),
-                                                            );
-                                                            let l5 = i32::from(
-                                                                *ptr0.add(7).cast::<u8>(),
-                                                            );
-                                                            let l6 = i32::from(
-                                                                *ptr0.add(8).cast::<u8>(),
-                                                            );
-                                                            let l7 = i32::from(
-                                                                *ptr0.add(9).cast::<u8>(),
-                                                            );
+                                                            let l4 = i32::from(*ptr0.add(6).cast::<u8>());
+                                                            let l5 = i32::from(*ptr0.add(7).cast::<u8>());
+                                                            let l6 = i32::from(*ptr0.add(8).cast::<u8>());
+                                                            let l7 = i32::from(*ptr0.add(9).cast::<u8>());
                                                             (l4 as u8, l5 as u8, l6 as u8, l7 as u8)
                                                         };
                                                         V16::Ipv4(e16)
                                                     }
                                                     n => {
-                                                        debug_assert_eq!(
-                                                            n, 1,
-                                                            "invalid enum discriminant"
-                                                        );
+                                                        debug_assert_eq!(n, 1, "invalid enum discriminant");
                                                         let e16 = {
-                                                            let l8 = i32::from(
-                                                                *ptr0.add(6).cast::<u16>(),
-                                                            );
-                                                            let l9 = i32::from(
-                                                                *ptr0.add(8).cast::<u16>(),
-                                                            );
-                                                            let l10 = i32::from(
-                                                                *ptr0.add(10).cast::<u16>(),
-                                                            );
-                                                            let l11 = i32::from(
-                                                                *ptr0.add(12).cast::<u16>(),
-                                                            );
-                                                            let l12 = i32::from(
-                                                                *ptr0.add(14).cast::<u16>(),
-                                                            );
-                                                            let l13 = i32::from(
-                                                                *ptr0.add(16).cast::<u16>(),
-                                                            );
-                                                            let l14 = i32::from(
-                                                                *ptr0.add(18).cast::<u16>(),
-                                                            );
-                                                            let l15 = i32::from(
-                                                                *ptr0.add(20).cast::<u16>(),
-                                                            );
+                                                            let l8 = i32::from(*ptr0.add(6).cast::<u16>());
+                                                            let l9 = i32::from(*ptr0.add(8).cast::<u16>());
+                                                            let l10 = i32::from(*ptr0.add(10).cast::<u16>());
+                                                            let l11 = i32::from(*ptr0.add(12).cast::<u16>());
+                                                            let l12 = i32::from(*ptr0.add(14).cast::<u16>());
+                                                            let l13 = i32::from(*ptr0.add(16).cast::<u16>());
+                                                            let l14 = i32::from(*ptr0.add(18).cast::<u16>());
+                                                            let l15 = i32::from(*ptr0.add(20).cast::<u16>());
                                                             (
-                                                                l8 as u16, l9 as u16, l10 as u16,
-                                                                l11 as u16, l12 as u16, l13 as u16,
-                                                                l14 as u16, l15 as u16,
+                                                                l8 as u16,
+                                                                l9 as u16,
+                                                                l10 as u16,
+                                                                l11 as u16,
+                                                                l12 as u16,
+                                                                l13 as u16,
+                                                                l14 as u16,
+                                                                l15 as u16,
                                                             )
                                                         };
                                                         V16::Ipv6(e16)
@@ -13182,7 +13742,9 @@ pub mod wasi {
                             unreachable!()
                         }
                         let ret = wit_import((self).handle() as i32);
-                        super::super::super::wasi::io::poll::Pollable::from_handle(ret as u32)
+                        super::super::super::wasi::io::poll::Pollable::from_handle(
+                            ret as u32,
+                        )
                     }
                 }
             }
@@ -13243,8 +13805,7 @@ pub mod wavs {
         pub mod layer_types {
             #[used]
             #[doc(hidden)]
-            static __FORCE_SECTION_REF: fn() =
-                super::super::super::__link_custom_section_describing_imports;
+            static __FORCE_SECTION_REF: fn() = super::super::super::__link_custom_section_describing_imports;
             use super::super::super::_rt;
             #[repr(C)]
             #[derive(Clone, Copy)]
@@ -13252,7 +13813,10 @@ pub mod wavs {
                 pub nanos: u64,
             }
             impl ::core::fmt::Debug for Timestamp {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("Timestamp").field("nanos", &self.nanos).finish()
                 }
             }
@@ -13263,7 +13827,10 @@ pub mod wavs {
                 pub prefix_len: u32,
             }
             impl ::core::fmt::Debug for CosmosAddress {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("CosmosAddress")
                         .field("bech32-addr", &self.bech32_addr)
                         .field("prefix-len", &self.prefix_len)
@@ -13276,7 +13843,10 @@ pub mod wavs {
                 pub attributes: _rt::Vec<(_rt::String, _rt::String)>,
             }
             impl ::core::fmt::Debug for CosmosEvent {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("CosmosEvent")
                         .field("ty", &self.ty)
                         .field("attributes", &self.attributes)
@@ -13294,7 +13864,10 @@ pub mod wavs {
                 pub bech32_prefix: _rt::String,
             }
             impl ::core::fmt::Debug for CosmosChainConfig {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("CosmosChainConfig")
                         .field("chain-id", &self.chain_id)
                         .field("rpc-endpoint", &self.rpc_endpoint)
@@ -13311,8 +13884,13 @@ pub mod wavs {
                 pub raw_bytes: _rt::Vec<u8>,
             }
             impl ::core::fmt::Debug for EthAddress {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-                    f.debug_struct("EthAddress").field("raw-bytes", &self.raw_bytes).finish()
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
+                    f.debug_struct("EthAddress")
+                        .field("raw-bytes", &self.raw_bytes)
+                        .finish()
                 }
             }
             #[derive(Clone)]
@@ -13323,7 +13901,10 @@ pub mod wavs {
                 pub data: _rt::Vec<u8>,
             }
             impl ::core::fmt::Debug for EthEventLogData {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("EthEventLogData")
                         .field("topics", &self.topics)
                         .field("data", &self.data)
@@ -13337,7 +13918,10 @@ pub mod wavs {
                 pub http_endpoint: Option<_rt::String>,
             }
             impl ::core::fmt::Debug for EthChainConfig {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("EthChainConfig")
                         .field("chain-id", &self.chain_id)
                         .field("ws-endpoint", &self.ws_endpoint)
@@ -13352,7 +13936,10 @@ pub mod wavs {
                 pub event_hash: _rt::Vec<u8>,
             }
             impl ::core::fmt::Debug for TriggerSourceEthContractEvent {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("TriggerSourceEthContractEvent")
                         .field("address", &self.address)
                         .field("chain-name", &self.chain_name)
@@ -13367,7 +13954,10 @@ pub mod wavs {
                 pub event_type: _rt::String,
             }
             impl ::core::fmt::Debug for TriggerSourceCosmosContractEvent {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("TriggerSourceCosmosContractEvent")
                         .field("address", &self.address)
                         .field("chain-name", &self.chain_name)
@@ -13381,7 +13971,10 @@ pub mod wavs {
                 pub n_blocks: u32,
             }
             impl ::core::fmt::Debug for BlockIntervalSource {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("BlockIntervalSource")
                         .field("chain-name", &self.chain_name)
                         .field("n-blocks", &self.n_blocks)
@@ -13395,7 +13988,10 @@ pub mod wavs {
                 pub end_time: Option<Timestamp>,
             }
             impl ::core::fmt::Debug for TriggerSourceCron {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("TriggerSourceCron")
                         .field("schedule", &self.schedule)
                         .field("start-time", &self.start_time)
@@ -13412,21 +14008,32 @@ pub mod wavs {
                 Manual,
             }
             impl ::core::fmt::Debug for TriggerSource {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
                         TriggerSource::EthContractEvent(e) => {
-                            f.debug_tuple("TriggerSource::EthContractEvent").field(e).finish()
+                            f.debug_tuple("TriggerSource::EthContractEvent")
+                                .field(e)
+                                .finish()
                         }
                         TriggerSource::CosmosContractEvent(e) => {
-                            f.debug_tuple("TriggerSource::CosmosContractEvent").field(e).finish()
+                            f.debug_tuple("TriggerSource::CosmosContractEvent")
+                                .field(e)
+                                .finish()
                         }
                         TriggerSource::BlockInterval(e) => {
-                            f.debug_tuple("TriggerSource::BlockInterval").field(e).finish()
+                            f.debug_tuple("TriggerSource::BlockInterval")
+                                .field(e)
+                                .finish()
                         }
                         TriggerSource::Cron(e) => {
                             f.debug_tuple("TriggerSource::Cron").field(e).finish()
                         }
-                        TriggerSource::Manual => f.debug_tuple("TriggerSource::Manual").finish(),
+                        TriggerSource::Manual => {
+                            f.debug_tuple("TriggerSource::Manual").finish()
+                        }
                     }
                 }
             }
@@ -13437,7 +14044,10 @@ pub mod wavs {
                 pub trigger_source: TriggerSource,
             }
             impl ::core::fmt::Debug for TriggerConfig {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("TriggerConfig")
                         .field("service-id", &self.service_id)
                         .field("workflow-id", &self.workflow_id)
@@ -13453,7 +14063,10 @@ pub mod wavs {
                 pub block_height: u64,
             }
             impl ::core::fmt::Debug for TriggerDataEthContractEvent {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("TriggerDataEthContractEvent")
                         .field("contract-address", &self.contract_address)
                         .field("chain-name", &self.chain_name)
@@ -13470,7 +14083,10 @@ pub mod wavs {
                 pub block_height: u64,
             }
             impl ::core::fmt::Debug for TriggerDataCosmosContractEvent {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("TriggerDataCosmosContractEvent")
                         .field("contract-address", &self.contract_address)
                         .field("chain-name", &self.chain_name)
@@ -13485,7 +14101,10 @@ pub mod wavs {
                 pub block_height: u64,
             }
             impl ::core::fmt::Debug for BlockIntervalData {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("BlockIntervalData")
                         .field("chain-name", &self.chain_name)
                         .field("block-height", &self.block_height)
@@ -13498,7 +14117,10 @@ pub mod wavs {
                 pub trigger_time: Timestamp,
             }
             impl ::core::fmt::Debug for TriggerDataCron {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("TriggerDataCron")
                         .field("trigger-time", &self.trigger_time)
                         .finish()
@@ -13513,13 +14135,20 @@ pub mod wavs {
                 Raw(_rt::Vec<u8>),
             }
             impl ::core::fmt::Debug for TriggerData {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
                         TriggerData::EthContractEvent(e) => {
-                            f.debug_tuple("TriggerData::EthContractEvent").field(e).finish()
+                            f.debug_tuple("TriggerData::EthContractEvent")
+                                .field(e)
+                                .finish()
                         }
                         TriggerData::CosmosContractEvent(e) => {
-                            f.debug_tuple("TriggerData::CosmosContractEvent").field(e).finish()
+                            f.debug_tuple("TriggerData::CosmosContractEvent")
+                                .field(e)
+                                .finish()
                         }
                         TriggerData::BlockInterval(e) => {
                             f.debug_tuple("TriggerData::BlockInterval").field(e).finish()
@@ -13527,7 +14156,9 @@ pub mod wavs {
                         TriggerData::Cron(e) => {
                             f.debug_tuple("TriggerData::Cron").field(e).finish()
                         }
-                        TriggerData::Raw(e) => f.debug_tuple("TriggerData::Raw").field(e).finish(),
+                        TriggerData::Raw(e) => {
+                            f.debug_tuple("TriggerData::Raw").field(e).finish()
+                        }
                     }
                 }
             }
@@ -13537,7 +14168,10 @@ pub mod wavs {
                 pub data: TriggerData,
             }
             impl ::core::fmt::Debug for TriggerAction {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("TriggerAction")
                         .field("config", &self.config)
                         .field("data", &self.data)
@@ -13550,7 +14184,10 @@ pub mod wavs {
                 pub ordering: Option<u64>,
             }
             impl ::core::fmt::Debug for WasmResponse {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     f.debug_struct("WasmResponse")
                         .field("payload", &self.payload)
                         .field("ordering", &self.ordering)
@@ -13566,7 +14203,10 @@ pub mod wavs {
                 Trace,
             }
             impl ::core::fmt::Debug for LogLevel {
-                fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+                fn fmt(
+                    &self,
+                    f: &mut ::core::fmt::Formatter<'_>,
+                ) -> ::core::fmt::Result {
                     match self {
                         LogLevel::Error => f.debug_tuple("LogLevel::Error").finish(),
                         LogLevel::Warn => f.debug_tuple("LogLevel::Warn").finish(),
@@ -13629,8 +14269,11 @@ pub mod host {
                                         let l7 = *ptr1.add(16).cast::<*mut u8>();
                                         let l8 = *ptr1.add(20).cast::<usize>();
                                         let len9 = l8;
-                                        let bytes9 =
-                                            _rt::Vec::from_raw_parts(l7.cast(), len9, len9);
+                                        let bytes9 = _rt::Vec::from_raw_parts(
+                                            l7.cast(),
+                                            len9,
+                                            len9,
+                                        );
                                         _rt::string_lift(bytes9)
                                     };
                                     Some(e)
@@ -13644,8 +14287,11 @@ pub mod host {
                                         let l11 = *ptr1.add(28).cast::<*mut u8>();
                                         let l12 = *ptr1.add(32).cast::<usize>();
                                         let len13 = l12;
-                                        let bytes13 =
-                                            _rt::Vec::from_raw_parts(l11.cast(), len13, len13);
+                                        let bytes13 = _rt::Vec::from_raw_parts(
+                                            l11.cast(),
+                                            len13,
+                                            len13,
+                                        );
                                         _rt::string_lift(bytes13)
                                     };
                                     Some(e)
@@ -13711,8 +14357,11 @@ pub mod host {
                                         let l7 = *ptr1.add(16).cast::<*mut u8>();
                                         let l8 = *ptr1.add(20).cast::<usize>();
                                         let len9 = l8;
-                                        let bytes9 =
-                                            _rt::Vec::from_raw_parts(l7.cast(), len9, len9);
+                                        let bytes9 = _rt::Vec::from_raw_parts(
+                                            l7.cast(),
+                                            len9,
+                                            len9,
+                                        );
                                         _rt::string_lift(bytes9)
                                     };
                                     Some(e)
@@ -13726,8 +14375,11 @@ pub mod host {
                                         let l11 = *ptr1.add(28).cast::<*mut u8>();
                                         let l12 = *ptr1.add(32).cast::<usize>();
                                         let len13 = l12;
-                                        let bytes13 =
-                                            _rt::Vec::from_raw_parts(l11.cast(), len13, len13);
+                                        let bytes13 = _rt::Vec::from_raw_parts(
+                                            l11.cast(),
+                                            len13,
+                                            len13,
+                                        );
                                         _rt::string_lift(bytes13)
                                     };
                                     Some(e)
@@ -13741,8 +14393,11 @@ pub mod host {
                                         let l15 = *ptr1.add(40).cast::<*mut u8>();
                                         let l16 = *ptr1.add(44).cast::<usize>();
                                         let len17 = l16;
-                                        let bytes17 =
-                                            _rt::Vec::from_raw_parts(l15.cast(), len17, len17);
+                                        let bytes17 = _rt::Vec::from_raw_parts(
+                                            l15.cast(),
+                                            len17,
+                                            len17,
+                                        );
                                         _rt::string_lift(bytes17)
                                     };
                                     Some(e)
@@ -13862,7 +14517,10 @@ mod _rt {
         #[doc(hidden)]
         pub unsafe fn from_handle(handle: u32) -> Self {
             debug_assert!(handle != u32::MAX);
-            Self { handle: AtomicU32::new(handle), _marker: marker::PhantomData }
+            Self {
+                handle: AtomicU32::new(handle),
+                _marker: marker::PhantomData,
+            }
         }
         /// Takes ownership of the handle owned by `resource`.
         ///

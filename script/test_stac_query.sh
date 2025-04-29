@@ -34,13 +34,14 @@ echo "$STAC_QUERY"
 echo "------------------------------------"
 
 # Run the component with the query
-cargo component run \
-  --no-default-features \
-  --target wasm32-wasip2 \
-  --manifest-path ./components/regen-oracle/Cargo.toml \
-  --release \
-  "$COMPONENT_PATH" \
-  --data @"$QUERY_FILE"
+# cargo component run \
+#   --no-default-features \
+#   --target wasm32-wasip2 \
+#   --manifest-path ./components/wavs-regen-oracle/Cargo.toml \
+#   --release \
+#   --data @"$QUERY_FILE"
+
+cat "$QUERY_FILE" | cargo component run -p wavs-regen-oracle --no-default-features --target wasm32-wasip2 --manifest-path ./components/wavs-regen-oracle/Cargo.toml --release
 
 # Clean up
 rm "$QUERY_FILE"

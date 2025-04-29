@@ -20,9 +20,9 @@ ANVIL_PRIVATE_KEY?=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f
 RPC_URL?=http://localhost:8545
 SERVICE_TRIGGER_ADDR?=`jq -r .deployedTo .docker/trigger.json`
 SERVICE_SUBMISSION_ADDR?=`jq -r .deployedTo .docker/submit.json`
-COIN_MARKET_CAP_ID?=1
 CREDENTIAL?=""
 WAVS_ENDPOINT?="http://localhost:8000"
+STAC_QUERY?='{"collections": ["sentinel-2-l2a"], "bbox": [-122.52, 37.70, -122.35, 37.83], "datetime": "2024-06-01T00:00:00Z/2024-06-30T23:59:59Z", "limit": 1, "query": { "eo:cloud_cover": { "lt": 10 } }}'
 
 ## build: building the project
 build: _build_forge wasi-build
@@ -35,7 +35,7 @@ wasi-build:
 wasi-exec: pull-image
 	@$(WAVS_CMD) exec --log-level=info --data /data/.docker --home /data \
 	--component "/data/compiled/$(COMPONENT_FILENAME)" \
-	--input `cast format-bytes32-string $(COIN_MARKET_CAP_ID)`
+	--input $(STAC_QUERY)
 
 ## test-stac: testing the STAC API oracle with a sample query
 test-stac: wasi-build
