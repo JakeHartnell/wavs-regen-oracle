@@ -134,3 +134,19 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# WAVS
+/target
+out/
+cache/
+broadcast/
+compiled/*.wasm
+.docker/*.json
+.docker/*.log
+.env
+node_modules/
+lcov.info
+internal/
+wavs:worker*.wit
+wavs:worker*.wasm
+.nodes
