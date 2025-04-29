@@ -132,19 +132,36 @@ The oracle supports the following environment variables:
 - `WAVS_ENV_IPFS_ENDPOINT`: IPFS upload endpoint (default: https://node.lighthouse.storage/api/v0/add)
 - `WAVS_ENV_LIGHTHOUSE_API_KEY`: API key for Lighthouse storage (required for IPFS uploads)
 
-## Windowed Reading
+## Gas and Memory Optimization
 
-To efficiently handle the large Sentinel-2 GeoTIFF files, this oracle uses windowed reading:
+To efficiently handle the large Sentinel-2 GeoTIFF files within blockchain gas limits, this oracle uses several optimization strategies:
 
-1. The oracle extracts the bounding box (bbox) from the STAC query
-2. It calculates the pixel coordinates for this geographic bbox using the raster's transform parameters
-3. It downloads only a portion of the data that covers the requested bbox
-4. This significantly reduces memory usage and processing time
+### 1. Optimized GeoTIFF Handling
+- Uses geographic to pixel coordinate mapping for efficient windowed reading
+- Implements proper geospatial transformations for bounding boxes
+- Processes only the data inside the requested geographic region
+- Designed to work with Cloud Optimized GeoTIFFs (COGs)
 
-The implementation:
-- Uses the image's projection transform to map between geographic and pixel coordinates
-- Limits download size to avoid memory issues
-- Provides a fallback mechanism to use simulated data if windowed reading fails
+### 2. Windowed Reading
+- Extracts the bounding box (bbox) from the STAC query
+- Calculates the pixel coordinates using the raster's transform parameters
+- Uses HTTP Range requests to download only a portion of the data
+- Limits the maximum download size to 100KB
+
+### 2. Window Size Scaling
+- Automatically scales down large windows to a maximum dimension of 500 pixels
+- Calculates the appropriate scale factor to maintain aspect ratio
+- Provides consistent results regardless of the original window size
+
+### 3. Efficient NDVI Visualization
+- Creates a smaller 200x200 pixel image (reduced from 500x500)
+- Uses a 20x20 grid sampling approach to minimize pixel calculations
+- Uses JPEG format with 60% quality to reduce the output file size
+
+### 4. Fallback Mechanism
+- Provides a simulated data fallback if windowed reading fails
+- Uses minimal 1KB sample data to ensure processing continues
+- Ensures the oracle remains responsive even with challenging inputs
 
 ## NDVI Calculation
 

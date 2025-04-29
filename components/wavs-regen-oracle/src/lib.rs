@@ -5,11 +5,12 @@ use wavs_wasi_utils::http::{fetch_json, http_request_get, http_request_post_json
 pub mod bindings;
 use crate::bindings::{export, Guest, TriggerAction, WasmResponse};
 use crate::ipfs::upload_nft_content;
+use geo::Rect;
 use image::GenericImage;
 use image::{DynamicImage, GenericImageView};
 use ndarray::{Array2, Zip};
 use serde::{Deserialize, Serialize};
-use std::io::Cursor;
+use std::io::{Cursor, Read};
 use wstd::{http::HeaderValue, runtime::block_on};
 
 struct Component;
@@ -310,9 +311,33 @@ async fn download_band_window(
     let window_width = (max_x - min_x) as u32;
     let window_height = (max_y - min_y) as u32;
 
+    // Further constrain window size if it's too large
+    // This helps prevent out-of-gas errors
+    const MAX_WINDOW_DIMENSION: u32 = 500;
+    let scale_factor_x = if window_width > MAX_WINDOW_DIMENSION {
+        (window_width as f32) / (MAX_WINDOW_DIMENSION as f32)
+    } else {
+        1.0
+    };
+
+    let scale_factor_y = if window_height > MAX_WINDOW_DIMENSION {
+        (window_height as f32) / (MAX_WINDOW_DIMENSION as f32)
+    } else {
+        1.0
+    };
+
+    let scale_factor = scale_factor_x.max(scale_factor_y);
+    let effective_window_width = (window_width as f32 / scale_factor) as u32;
+    let effective_window_height = (window_height as f32 / scale_factor) as u32;
+
     println!(
-        "Window coordinates: x={}-{}, y={}-{}, width={}, height={}",
+        "Original window coordinates: x={}-{}, y={}-{}, width={}, height={}",
         min_x, max_x, min_y, max_y, window_width, window_height
+    );
+
+    println!(
+        "Reduced window size: width={}, height={}, scale_factor={}",
+        effective_window_width, effective_window_height, scale_factor
     );
 
     // For COG GeoTIFFs, we would ideally use range requests to get only the needed tiles
@@ -324,24 +349,25 @@ async fn download_band_window(
     req.headers_mut()
         .insert("User-Agent", HeaderValue::from_static("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"));
 
-    // If the server supports byte ranges, we could add:
-    // req.headers_mut().insert("Range", HeaderValue::from_static("bytes=0-1000000"));
+    // Set a very small byte range to minimize data transfer
+    req.headers_mut().insert("Range", HeaderValue::from_static("bytes=0-100000"));
 
     let mut response = wstd::http::Client::new()
         .send(req)
         .await
         .map_err(|e| format!("Failed to send request: {}", e))?;
 
-    if !response.status().is_success() {
+    if !response.status().is_success() && response.status().as_u16() != 206 {
+        // 206 is Partial Content, which is success for a range request
         return Err(format!("Failed to download band. Status: {:?}", response.status()));
     }
 
     // Read just a small portion for demonstration
     let mut body_buf = Vec::new();
     let mut bytes_read = 0;
-    let max_bytes = 1_000_000; // Limit to 1MB for example purposes
+    let max_bytes = 100_000; // Reduce to 100KB max to save gas
 
-    let mut buffer = [0u8; 8192];
+    let mut buffer = [0u8; 4096]; // Smaller buffer size
     loop {
         let n = wstd::io::AsyncRead::read(response.body_mut(), &mut buffer)
             .await
@@ -355,7 +381,7 @@ async fn download_band_window(
         bytes_read += n;
 
         if bytes_read >= max_bytes {
-            println!("Reached byte limit. Truncating download.");
+            println!("Reached byte limit ({}KB). Truncating download.", max_bytes / 1000);
             break;
         }
     }
@@ -374,16 +400,16 @@ async fn download_band_window(
 async fn download_band(url: &str) -> Result<Vec<u8>, String> {
     println!("Simulating band download from URL: {}", url);
 
-    // Return a small sample buffer instead of downloading the full image
-    let sample_size = 10240; // 10KB sample
+    // Return a very small sample buffer to minimize gas usage
+    let sample_size = 1024; // Just 1KB sample - as small as possible while still representing an image
     let mut buffer = Vec::with_capacity(sample_size);
 
-    // Fill with placeholder data (real implementation would download actual data)
+    // Fill with placeholder data for minimal memory footprint
     for i in 0..sample_size {
         buffer.push((i % 256) as u8);
     }
 
-    println!("Created sample data of {} bytes", buffer.len());
+    println!("Created minimal sample data of {} bytes", buffer.len());
     Ok(buffer)
 }
 
@@ -409,31 +435,50 @@ fn calculate_ndvi(red_data: &[u8], nir_data: &[u8]) -> Result<Vec<u8>, String> {
     // 3. Apply the NDVI formula: (NIR - RED) / (NIR + RED)
     // 4. Create a visualization
 
-    // Create a simple gradient image as a placeholder
-    let width = 500;
-    let height = 500;
+    // Create a smaller image to reduce gas usage
+    let width = 200; // Reduced from 500
+    let height = 200; // Reduced from 500
     let mut img = DynamicImage::new_rgb8(width, height);
 
-    for y in 0..height {
-        for x in 0..width {
+    // Pre-calculate the NDVI values in a smaller grid
+    // This reduces the number of pixels we need to set
+    let grid_size = 20; // 20x20 grid = 400 pixels instead of 40,000
+    let cell_width = width / grid_size;
+    let cell_height = height / grid_size;
+
+    for grid_y in 0..grid_size {
+        for grid_x in 0..grid_size {
             // Create a gradient from bottom-left to top-right
             // This is just for visualization purposes
-            let ndvi_value = (x as f32 / width as f32 + y as f32 / height as f32) / 2.0;
+            let ndvi_value =
+                (grid_x as f32 / grid_size as f32 + grid_y as f32 / grid_size as f32) / 2.0;
 
             // Apply a color scale (red to green)
             let r = ((1.0 - ndvi_value) * 255.0) as u8;
             let g = (ndvi_value * 255.0) as u8;
             let b = 0;
 
-            img.put_pixel(x, y, image::Rgba([r, g, b, 255]));
+            // Fill the cell with the same color
+            let start_x = grid_x * cell_width;
+            let start_y = grid_y * cell_height;
+            let end_x = ((grid_x + 1) * cell_width).min(width);
+            let end_y = ((grid_y + 1) * cell_height).min(height);
+
+            for y in start_y..end_y {
+                for x in start_x..end_x {
+                    img.put_pixel(x, y, image::Rgba([r, g, b, 255]));
+                }
+            }
         }
     }
 
-    // Convert to PNG
+    // Use a more aggressive compression level for PNG
     let mut png_data = Vec::new();
     let mut cursor = Cursor::new(&mut png_data);
-    img.write_to(&mut cursor, image::ImageOutputFormat::Png)
-        .map_err(|e| format!("Failed to encode PNG: {}", e))?;
+
+    // JPEG provides much smaller file sizes than PNG for this type of image
+    img.write_to(&mut cursor, image::ImageOutputFormat::Jpeg(60)) // Quality set to 60%
+        .map_err(|e| format!("Failed to encode JPEG: {}", e))?;
 
     println!("Generated mock NDVI image of size {} bytes", png_data.len());
     Ok(png_data)

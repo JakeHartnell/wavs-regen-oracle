@@ -17,6 +17,8 @@ alloy-sol-types = { workspace = true }
 anyhow = { workspace = true }
 image = { workspace = true }
 ndarray = { workspace = true }
+geotiff = { workspace = true }
+geo = { workspace = true }
 
 [lib]
 crate-type = ["cdylib"]
